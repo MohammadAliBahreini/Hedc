@@ -1,0 +1,20 @@
+{
+  "name": "hedc1",
+  "version": "1.0.0",
+  "main": "chart.umd.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "chart.js": "^4.4.0",
+    "chartjs-plugin-annotation": "^2.2.1",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
+    "sweetalert2": "^11.10.1",
+    "xlsx": "^0.18.5"
+  }
+}

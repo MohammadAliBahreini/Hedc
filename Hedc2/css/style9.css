@@ -1,0 +1,417 @@
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap');
+
+body {
+    font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    direction: rtl;
+    background: url('Background.jpg') no-repeat center center fixed; /* تنظیم بک‌گراند */
+    background-size: cover;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh; /* برای پوشش کل صفحه */
+}
+
+.header {
+    width: 100%;
+    background-color: transparent; /* پس‌زمینه هدر شفاف شد */
+    padding: 0;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 10px; /* Reduced margin */
+}
+
+.header-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.container {
+    max-width: 1300px;
+    width: 100%;
+    padding: 10px; /* Reduced padding */
+    box-sizing: border-box;
+    margin-bottom: 20px; /* Margin for footer */
+}
+
+h1, h2 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    min-width: 300px; /* Minimum width for cards */
+    box-sizing: border-box;
+}
+
+.top-controls {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping */
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.file-upload-card, .settings-card {
+    flex: 1; /* Allow cards to grow */
+    min-width: 350px; /* Minimum width for these cards */
+}
+
+.file-input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+input[type="file"] {
+    display: none; /* Hide default file input */
+}
+
+.custom-file-upload {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1em;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.file-name-display {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    color: #555;
+    text-align: center;
+}
+
+select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 0.95em;
+    appearance: none; /* Remove default arrow */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007bff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.2-6.4H18.4c-4.8%200-9.3%201.8-12.9%205.8l-1.8%202.7c-3.6%204.9-3.3%2011.3.7%2015.6l130.3%20140.2c4.3%204.6%2011%204.6%2015.3%200l130.3-140.2c4-4.3%204.3-10.7.7-15.6z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: left 10px center; /* Align arrow to the left */
+    background-size: 12px;
+    padding-left: 30px; /* Make space for the arrow */
+}
+
+select:disabled {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #0056b3;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover:not(:disabled) {
+    background-color: #c82333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-success:hover:not(:disabled) {
+    background-color: #218838;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.btn-info:hover:not(:disabled) {
+    background-color: #138496;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+    box-shadow: none;
+}
+
+.settings-card .setting-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.settings-card .setting-item:last-child {
+    margin-bottom: 0;
+}
+
+.settings-card label {
+    flex: 1; /* Allow label to take up space */
+    font-size: 1em;
+    color: #555;
+    text-align: right; /* Align text to the right */
+}
+
+.settings-card input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #007bff; /* Change checkbox color */
+    margin-left: 10px; /* Space between checkbox and label */
+    flex-shrink: 0; /* Prevent checkbox from shrinking */
+}
+
+.settings-card input[type="number"] {
+    width: 80px; /* Fixed width for number inputs */
+    padding: 6px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 0.95em;
+    -moz-appearance: textfield; /* Remove arrows from Firefox */
+}
+
+.settings-card input[type="number"]::-webkit-outer-spin-button,
+.settings-card input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.settings-card input[type="number"]:disabled {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+}
+
+/* Progress Bar */
+.progress-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 15px;
+    height: 25px;
+    position: relative;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #28a745;
+    width: 0%;
+    border-radius: 5px;
+    transition: width 0.4s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 0.9em;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.progress-label {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    line-height: 25px;
+    color: #333;
+    font-size: 0.85em;
+    z-index: 1; /* Ensure label is above bar */
+}
+
+
+/* Results Table */
+#resultsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+
+#resultsTable th, #resultsTable td {
+    border: 1px solid #e0e0e0;
+    padding: 8px 12px;
+    text-align: center;
+}
+
+#resultsTable th {
+    background-color: #f2f2f2;
+    color: #333;
+    font-weight: bold;
+}
+
+#resultsTable tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#resultsTable tbody tr:hover {
+    background-color: #f0f0f0;
+}
+
+/* Charts */
+#chartsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    min-height: 200px; /* Placeholder height */
+    align-items: center; /* Center message if no charts */
+}
+
+.chart-wrapper {
+    position: relative;
+    width: calc(33.33% - 14px); /* 3 charts per row */
+    min-width: 300px; /* Minimum width for each chart */
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.chart-wrapper h3 {
+    text-align: center;
+    color: #333;
+    font-size: 1.1em;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.chart-wrapper canvas {
+    max-width: 100%;
+    height: 250px; /* Fixed height for consistent chart size */
+    display: block; /* Ensure no extra space below canvas */
+}
+
+.chart-download-btn {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    background-color: #00bcd4;
+    color: white;
+    border: none;
+    padding: 4px 6px; /* Reduced padding */
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.7em; /* Smaller font */
+    z-index: 20;
+    transition: background-color 0.2s;
+}
+
+.chart-download-btn:hover {
+    background-color: #0097a7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .chart-wrapper {
+        width: calc(50% - 10px); /* 2 charts per row on slightly smaller screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 5px; /* Even less padding on mobile */
+    }
+    .top-controls {
+        flex-direction: column; /* Stack controls vertically on small screens */
+        align-items: stretch;
+    }
+    .card {
+        min-width: unset; /* Remove min-width on small screens */
+        width: 100%; /* Full width */
+        padding: 15px; /* Reduced padding */
+    }
+    .file-upload-card, .settings-card {
+        min-width: unset;
+    }
+    .action-buttons {
+        flex-direction: column; /* Stack buttons vertically */
+    }
+    .btn {
+        width: 100%; /* Full width buttons */
+        margin-bottom: 5px; /* Space between stacked buttons */
+    }
+    .chart-wrapper {
+        width: 100%; /* Full width charts on mobile */
+        height: auto;
+    }
+    #resultsTable th, #resultsTable td {
+        padding: 6px 8px; /* Smaller padding for table cells */
+        font-size: 0.8em; /* Smaller font size for table */
+    }
+    .settings-card .setting-item {
+        flex-direction: column;
+        align-items: flex-end; /* Align labels to right */
+    }
+    .settings-card label {
+        width: 100%; /* Full width for label */
+        text-align: right;
+        margin-bottom: 5px;
+    }
+    .settings-card input[type="number"] {
+        width: 100%; /* Full width for number input */
+    }
+    .settings-card input[type="checkbox"] {
+        margin-left: 0;
+        margin-right: auto; /* Push checkbox to left */
+    }
+}

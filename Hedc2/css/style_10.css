@@ -1,0 +1,304 @@
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap');
+
+body {
+    font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    direction: rtl;
+    background: url('Background.jpg') no-repeat center center fixed; /* تنظیم بک‌گراند */
+    background-size: cover;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh; /* برای پوشش کل صفحه */
+}
+
+.header {
+    width: 100%;
+    background-color: transparent; /* پس‌زمینه هدر شفاف شد */
+    padding: 0;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 10px; /* Reduced margin */
+}
+
+.header-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.container {
+    max-width: 1300px;
+    width: 98%; /* Slightly increased width for more space */
+    padding: 10px; /* Reduced padding */
+    margin: 0 auto;
+    background-color: transparent; /* Main container also transparent */
+    box-shadow: none; /* No shadow for main container */
+    border-radius: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #fff; /* White color for better visibility on transparent background */
+    margin-bottom: 10px; /* Reduced margin */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Text shadow for better visibility */
+}
+
+.top-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Reduced gap */
+    justify-content: center;
+    margin-bottom: 10px; /* Reduced margin */
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.7); /* Transparent white background */
+    padding: 10px; /* Reduced padding */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow for depth */
+    margin-bottom: 10px; /* Reduced margin */
+    flex: 1; /* Allow cards to grow */
+    min-width: 280px; /* Minimum width for cards */
+    display: flex; /* Use flexbox for internal layout */
+    flex-direction: column; /* Stack content vertically */
+    justify-content: space-between; /* Distribute space */
+}
+
+.card h2 {
+    margin-top: 0;
+    margin-bottom: 8px; /* Reduced margin */
+    color: #333;
+    font-size: 1.1em; /* Slightly smaller heading */
+    text-align: center;
+}
+
+.file-input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px; /* Reduced gap */
+    align-items: center;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    display: inline-block;
+    padding: 6px 12px; /* Reduced padding */
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.9em; /* Slightly smaller font */
+}
+
+.file-name-display {
+    font-size: 0.85em; /* Smaller font */
+    color: #555;
+    margin-top: 4px;
+}
+
+.action-buttons, .export-buttons {
+    display: flex;
+    gap: 6px; /* Reduced gap */
+    margin-top: 8px; /* Reduced margin */
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.time-calc-row, .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 6px; /* Reduced gap */
+    margin-bottom: 6px; /* Reduced margin */
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+}
+
+.time-calc-row label, .filter-group label {
+    flex-shrink: 0; /* Prevent label from shrinking */
+    font-size: 0.9em; /* Smaller font */
+}
+
+.time-calc-row input[type="number"],
+.time-calc-row select,
+.filter-group input[type="number"],
+.filter-group select {
+    flex-grow: 1; /* Allow inputs to grow */
+    padding: 4px 8px; /* Reduced padding */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9em; /* Smaller font */
+    max-width: 150px; /* Limit max width for consistency */
+}
+
+.time-calc-row .colon, .time-calc-row .dash {
+    flex-shrink: 0;
+    font-size: 0.9em;
+}
+
+.filter-group input[type="checkbox"] {
+    margin-left: 5px;
+}
+
+.btn-primary, .btn-danger, .btn-success, .btn-info {
+    padding: 6px 12px; /* Reduced padding */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em; /* Smaller font */
+    transition: background-color 0.2s;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.btn-primary { background-color: #007bff; color: white; }
+.btn-primary:hover { background-color: #0056b3; }
+.btn-danger { background-color: #dc3545; color: white; }
+.btn-danger:hover { background-color: #c82333; }
+.btn-success { background-color: #28a745; color: white; }
+.btn-success:hover { background-color: #218838; }
+.btn-info { background-color: #17a2b8; color: white; }
+.btn-info:hover { background-color: #138496; }
+
+
+/* Table Styles */
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* Horizontal scrollbar for table */
+    margin-bottom: 10px; /* Reduced margin */
+    direction: rtl; /* Ensure scrollbar is on the right */
+    border-radius: 8px; /* Match card border radius */
+    background-color: rgba(255, 255, 255, 0.7); /* Transparent background for table container */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Match card shadow */
+    padding: 10px; /* Added padding to table container */
+}
+
+#resultsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0; /* Remove internal margins */
+    font-size: 0.85em; /* Smaller font for table */
+    white-space: nowrap; /* Prevent text wrapping in table cells */
+}
+
+#resultsTable th, #resultsTable td {
+    border: 1px solid rgba(204, 204, 204, 0.7); /* Lighter, transparent border */
+    padding: 4px 8px; /* Reduced padding */
+    text-align: center;
+}
+
+#resultsTable th {
+    background-color: rgba(240, 240, 240, 0.7); /* Lighter, transparent header background */
+    color: #333;
+    font-weight: bold;
+}
+
+#resultsTable tbody tr:nth-child(even) {
+    background-color: rgba(249, 249, 249, 0.5); /* Lighter, more transparent alternate row */
+}
+
+#resultsTable tbody tr:hover {
+    background-color: rgba(230, 230, 230, 0.7); /* Hover effect with transparency */
+}
+
+
+/* Chart Specific Styles */
+#chartsContainer {
+    padding: 10px; /* Reduced padding */
+    overflow-y: auto; /* Vertical scrollbar for charts container */
+    max-height: 800px; /* Adjust as needed for scroll height */
+    margin-bottom: 10px;
+    background-color: rgba(255, 255, 255, 0.7); /* Transparent white background */
+}
+
+.chart-container { /* Renamed from chart-wrapper for clarity */
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly less transparent for chart background */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    margin-bottom: 15px; /* Spacing between charts */
+}
+
+.chart-container h3 {
+    margin-top: 0;
+    margin-bottom: 5px; /* Reduced margin to bring closer to chart */
+    font-size: 1.2em;
+    color: #007bff;
+    text-align: center;
+}
+
+.chart-container p {
+    margin-top: 2px; /* Reduced margin */
+    margin-bottom: 5px; /* Reduced margin */
+    font-size: 0.9em;
+    text-align: center;
+}
+
+.address-font-small {
+    font-size: 0.8em;
+    color: #555;
+}
+
+/* Specific styling for the info line on the chart */
+.text-info {
+    color: #17a2b8; /* Bootstrap info blue */
+    font-weight: bold;
+}
+
+hr {
+    border-color: rgba(255, 255, 255, 0.5); /* Lighter, transparent HR */
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .top-controls {
+        flex-direction: row;
+        justify-content: center;
+        gap: 8px;
+    }
+    .card {
+        flex: 1 1 calc(50% - 8px); /* Two cards per row */
+        min-width: unset;
+    }
+    .file-upload-card, .time-calc-card, .filter-calc-card, .export-buttons-card {
+        max-width: calc(50% - 8px); /* Explicit max-width for two columns */
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 5px; /* Even less padding on mobile */
+    }
+    .top-controls {
+        flex-direction: column; /* Stack controls vertically on small screens */
+        align-items: stretch;
+        gap: 5px;
+    }
+    .card {
+        min-width: unset; /* Remove min-width on small screens */
+        width: 100%; /* Full width */
+        margin-bottom: 5px;
+    }
+    .chart-container {
+        width: 100%; /* 1 chart per row on mobile */
+        height: auto; /* Auto height on mobile */
+    }
+    .option-group, .time-calc-row {
+        flex-direction: column; /* Stack options vertically */
+        align-items: flex-start;
+        gap: 3px;
+    }
+    .option-group input[type="number"],
+    .option-group input[type="text"],
+    .option-group select,
+    .time-calc-row input[type="number"],
+    .time-calc-row select {
+        max-width: 100%; /* Full width inputs */
+    }
+}

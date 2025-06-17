@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ابزار تحلیل مصرف برق مشترکین</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <img src="header.png" alt="هدر سایت" class="header-image">
+    </div>
+
+    <div class="container">
+        <h1>ابزار تحلیل و مدیریت مصرف برق مشترکین</h1>
+
+        <div class="top-controls">
+            <div class="card file-upload-card">
+                <h2>ورودی و پردازش</h2>
+                <div class="file-input-section">
+                    <input type="file" id="excelFile" accept=".xlsx, .xls">
+                    <label for="excelFile" class="custom-file-upload btn-info">
+                        انتخاب فایل اکسل
+                    </label>
+                    <span id="fileNameDisplay" class="file-name-display">فایل انتخاب نشده...</span>
+                    <select id="sheetSelect" disabled>
+                        <option value="">- Sheet1 -</option>
+                    </select>
+                </div>
+                <div class="action-buttons">
+                    <button id="processDataBtn" class="btn-primary" disabled>پردازش داده‌ها</button>
+                    <button id="resetAppBtn" class="btn-danger">شروع مجدد</button>
+                </div>
+                <div id="status">
+                    <div id="progress-container">
+                        <div id="progress-bar"></div>
+                    </div>
+                    <p id="progress-label">منتظر انتخاب فایل...</p>
+                </div>
+            </div>
+
+            <div class="card time-calc-card">
+                <h2>تنظیمات زمان و نوع محاسبه بار</h2>
+                <div class="load-settings-group">
+                    <div class="time-calc-row">
+                        <label for="morningCalcType">صبح:</label>
+                        <select id="morningCalcType">
+                            <option value="avg">میانگین</option>
+                            <option value="max" selected>حداکثر</option>
+                            <option value="min">حداقل</option>
+                        </select>
+                        <input type="number" id="morningStartHour" class="hour-input" value="8" min="0" max="23">
+                        <span class="colon">:</span>
+                        <input type="number" id="morningStartMinute" class="minute-input" value="0" min="0" max="45" step="15">
+                        <span class="dash">-</span>
+                        <input type="number" id="morningEndHour" class="hour-input" value="13" min="0" max="23">
+                        <span class="colon">:</span>
+                        <input type="number" id="morningEndMinute" class="minute-input" value="15" min="0" max="45" step="15">
+                    </div>
+                    <div class="time-calc-row">
+                        <label for="eveningCalcType">عصر:</label>
+                        <select id="eveningCalcType">
+                            <option value="avg">میانگین</option>
+                            <option value="max" selected>حداکثر</option>
+                            <option value="min">حداقل</option>
+                        </select>
+                        <input type="number" id="eveningStartHour" class="hour-input" value="15" min="0" max="23">
+                        <span class="colon">:</span>
+                        <input type="number" id="eveningStartMinute" class="minute-input" value="0" min="0" max="45" step="15">
+                        <span class="dash">-</span>
+                        <input type="number" id="eveningEndHour" class="hour-input" value="19" min="0" max="23">
+                        <span class="colon">:</span>
+                        <input type="number" id="eveningEndMinute" class="minute-input" value="45" min="0" max="45" step="15">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card filter-calc-card">
+                <h2>تنظیمات فیلتر و محاسبات</h2>
+                <div class="filter-options-group">
+                    <div class="filter-group">
+                        <input type="checkbox" id="chkEvening">
+                        <label for="chkEvening">حداقل بار عصر(KW):</label>
+                        <input type="number" id="txtEvening" value="15" disabled>
+                    </div>
+                    <div class="filter-group">
+                        <input type="checkbox" id="chkReduction">
+                        <label for="chkReduction">حداکثر درصد کاهش(%):</label> <input type="number" id="txtReduction" value="10" disabled>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card export-buttons-card">
+                <h2>خروجی‌ها</h2>
+                <div class="export-buttons">
+                    <button id="exportExcelBtn" class="btn-success" disabled>خروجی اکسل</button>
+                    <button id="exportPdfBtn" class="btn-info" disabled>خروجی PDF پروفیل‌ها</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-container card">
+            <table id="resultsTable">
+                <thead>
+                    <tr>
+                        <th>ردیف</th>
+                        <th>شماره بدنه</th>
+                        <th>نام مشترک</th>
+                        <th>شناسه قبض</th>
+                        <th>آدرس مشترک</th>
+                        <th>شماره اشتراک</th>
+                        <th>دیماند قراردادی (KW)</th>
+                        <th>بار صبح (KW)</th>
+                        <th>بار عصر (KW)</th>
+                        <th>میزان کاهش (KW)</th>
+                        <th>درصد کاهش (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="chartsContainer" class="card">
+            <h2>پروفیل بارهای مشترکین</h2>
+            <p id="noChartsMessage" style="text-align: center; color: #777; margin-top: 20px;">
+                برای نمایش نمودارها، لطفاً ابتدا داده‌ها را پردازش کنید.
+            </p>
+        </div>
+
+        </div>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <script src="js/Script_Charts.js" defer></script>
+</body>
+</html>

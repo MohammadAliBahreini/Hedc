@@ -1,0 +1,445 @@
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap');
+
+body {
+    font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    direction: rtl;
+    background: url('Background.jpg') no-repeat center center fixed; /* تنظیم بک‌گراند */
+    background-size: cover;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh; /* برای پوشش کل صفحه */
+}
+
+.header {
+    width: 100%;
+    background-color: transparent; /* پس‌زمینه هدر شفاف شد */
+    padding: 0;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 10px; /* Reduced margin */
+}
+
+.header-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.container {
+    max-width: 1300px;
+    width: 95%;
+    margin: 10px auto; /* Reduced margin */
+    background-color: rgba(255, 255, 255, 0.5); /* White with more transparency */
+    padding: 10px; /* Reduced padding */
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+h1, h2 {
+    text-align: center;
+    color: #1a73e8;
+    margin-bottom: 8px; /* Reduced margin */
+    font-weight: 700;
+    font-size: 1.4em;
+}
+
+h2 {
+    font-size: 1.2em;
+    margin-bottom: 6px; /* Reduced margin */
+}
+
+h3 {
+    text-align: center;
+    color: #3f51b5;
+    margin-top: 8px; /* Reduced margin */
+    margin-bottom: 6px; /* Reduced margin */
+    border-bottom: 1px solid #eee;
+    padding-bottom: 4px; /* Reduced padding */
+    font-size: 1.05em;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.4); /* Cards with more transparency */
+    padding: 10px; /* Reduced padding */
+    margin-bottom: 10px; /* Reduced margin */
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e0e0e0;
+}
+
+.top-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Reduced gap */
+    justify-content: center;
+    margin-bottom: 10px; /* Reduced margin */
+}
+
+.top-controls .card {
+    flex: 1;
+    min-width: 300px;
+    max-width: calc(25% - 8px); /* Adjusted for 4 cards in a row, with export buttons moved */
+    padding: 8px; /* Reduced padding */
+    margin-bottom: 0;
+}
+
+/* Order for cards */
+.file-upload-card { order: 1; }
+.time-calc-card { order: 2; }
+.filter-calc-card { order: 3; }
+.export-buttons-card { order: 4; } /* New card for export buttons */
+
+.file-input-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px; /* Reduced gap */
+    margin-bottom: 8px; /* Reduced margin */
+    justify-content: center;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px; /* Reduced gap */
+    padding: 5px 8px; /* Reduced padding */
+    cursor: pointer;
+    background-color: #1a73e8;
+    color: white;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 11px; /* Reduced font size */
+    flex-shrink: 0;
+}
+
+.custom-file-upload:hover {
+    background-color: #0d47a1;
+    transform: translateY(-1px);
+}
+
+.custom-file-upload::before {
+    content: '📁';
+    font-size: 0.9em;
+}
+
+.file-name-display {
+    padding: 5px 7px; /* Reduced padding */
+    background-color: #f0f4f7;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+    flex-grow: 1;
+    color: #555;
+    font-size: 11px; /* Reduced font size */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px;
+    min-width: 70px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 6px; /* Reduced gap */
+    justify-content: center;
+    margin-top: 8px; /* Reduced margin */
+}
+
+.export-buttons { /* Added specific styling for the moved export buttons */
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 8px;
+}
+
+
+button, select {
+    padding: 5px 10px; /* Reduced padding */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 11px; /* Reduced font size */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.btn-primary { background-color: #28a745; color: white; border-color: #28a745; }
+.btn-primary:hover { background-color: #218838; border-color: #1e7e34; }
+.btn-danger { background-color: #dc3545; color: white; border-color: #dc3545; }
+.btn-danger:hover { background-color: #c82333; border-color: #bd2130; }
+.btn-success { background-color: #1a73e8; color: white; border-color: #1a73e8; }
+.btn-success:hover { background-color: #0d47a1; border-color: #0d47a1; }
+.btn-info { background-color: #ff8c00; color: white; border-color: #ff8c00; }
+.btn-info:hover { background-color: #cc7000; border-color: #cc7000; }
+
+button:disabled, select:disabled {
+    background-color: #cccccc;
+    border-color: #bbbbbb;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+select {
+    background-color: #f8f8f8;
+    border: 1px solid #d0d0d0;
+    min-width: 70px;
+    max-width: 100px;
+    flex-shrink: 0;
+}
+
+.filter-options-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 8px; /* Reduced gap */
+    justify-content: flex-start;
+    padding-bottom: 5px; /* Reduced padding */
+    border-bottom: 1px solid #eee;
+}
+
+.filter-group, .load-settings-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px 4px; /* Reduced gap */
+    padding: 3px 5px; /* Reduced padding */
+    border: 1px dashed #c3dafc;
+    border-radius: 7px;
+    background-color: #f7fbff;
+}
+
+.time-calc-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px; /* Reduced gap */
+    margin-bottom: 4px; /* Reduced margin */
+}
+
+.time-calc-row:last-child {
+    margin-bottom: 0;
+}
+
+.filter-group label, .load-settings-group label {
+    font-weight: 600;
+    color: #444;
+    font-size: 11px; /* Reduced font size */
+    white-space: nowrap;
+}
+
+input[type="number"] {
+    width: 30px; /* Reduced width */
+    padding: 3px; /* Reduced padding */
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    text-align: center;
+    font-size: 11px; /* Reduced font size */
+}
+
+.hour-input, .minute-input {
+    width: 25px; /* Reduced width */
+}
+.colon, .dash {
+    font-weight: bold;
+    font-size: 0.8em; /* Reduced font size */
+}
+
+input[type="number"]:disabled {
+    background-color: #e9ecef;
+}
+
+input[type="checkbox"] {
+    transform: scale(0.8); /* Slightly smaller checkbox */
+    margin-left: 3px; /* Reduced margin */
+}
+
+.table-container {
+    overflow-x: auto;
+    max-height: 300px; /* Reduced max-height */
+    margin-top: 10px; /* Reduced margin */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.02);
+}
+
+#resultsTable {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 0;
+    font-size: 11px; /* Reduced font size */
+}
+
+#resultsTable th, #resultsTable td {
+    border: 1px solid #e0e0e0;
+    padding: 5px; /* Reduced padding */
+    text-align: right;
+}
+
+#resultsTable thead th {
+    background-color: #1a73e8;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+#resultsTable tbody tr:nth-child(even) {
+    background-color: #f8faff;
+}
+
+#resultsTable tbody tr:hover {
+    background-color: #e3f2fd;
+    cursor: pointer;
+}
+
+#status {
+    margin-top: 10px; /* Reduced margin */
+    text-align: center;
+    font-size: 0.8em; /* Reduced font size */
+}
+
+#progress-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    margin-top: 5px; /* Reduced margin */
+    overflow: hidden;
+}
+
+#progress-bar {
+    width: 0%;
+    height: 16px; /* Reduced height */
+    background-color: #4CAF50;
+    border-radius: 8px;
+    text-align: center;
+    line-height: 16px;
+    color: white;
+    transition: width 0.4s ease-in-out;
+    font-weight: bold;
+    font-size: 0.7em; /* Reduced font size */
+}
+
+#progress-label {
+    margin-top: 4px; /* Reduced margin */
+    color: #555;
+    font-weight: 500;
+    font-size: 0.75em; /* Reduced font size */
+}
+
+#chartsContainer {
+    margin-top: 10px; /* Reduced margin */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Reduced gap */
+    justify-content: center;
+    max-height: 70vh; /* Added max-height for scrollbar */
+    overflow-y: auto; /* Added vertical scrollbar */
+    direction: ltr; /* To make scrollbar appear on the right */
+}
+
+.chart-container { /* Renamed from .chart-wrapper */
+    background-color: rgba(255, 255, 255, 0.3); /* Transparent background for chart cards */
+    padding: 8px; /* Reduced padding */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    width: calc(33.33% - 10px); /* Adjusted for 3 charts per row with gap */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    direction: rtl; /* To keep content RTL within LTR container */
+}
+
+.chart-container canvas { /* Renamed from .chart-wrapper canvas */
+    max-width: 100%;
+    height: 250px; /* Reduced fixed height for charts */
+    margin-top: 5px; /* Reduced margin */
+}
+
+.chart-download-btn {
+    position: absolute;
+    top: 5px; /* Reduced top position */
+    left: 5px; /* Reduced left position */
+    background-color: #00bcd4;
+    color: white;
+    border: none;
+    padding: 4px 7px; /* Reduced padding */
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.7em; /* Reduced font size */
+    z-index: 20;
+    transition: background-color 0.2s;
+}
+
+.chart-download-btn:hover {
+    background-color: #0097a7;
+}
+
+/* New class for transparent background */
+.bg-transparent {
+    background-color: transparent !important;
+}
+
+/* Smaller font for addresses */
+.address-font-small {
+    font-size: 0.75em;
+    color: rgba(255, 255, 255, 0.7); /* Adjusted color for transparent background */
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .top-controls .card {
+        max-width: calc(50% - 6px); /* Adjusted for 2 cards in a row */
+    }
+    .chart-container { /* Renamed from .chart-wrapper */
+        width: calc(50% - 10px); /* Adjusted for 2 charts per row */
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 5px;
+    }
+    .top-controls .card {
+        max-width: 100%;
+    }
+    .file-input-section, .filter-group, .load-settings-group, .filter-options-group {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 5px;
+    }
+    .custom-file-upload, .file-name-display, button, select, input[type="number"] {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    h1 {
+        font-size: 1.3em;
+    }
+    h2 {
+        font-size: 1.1em;
+    }
+    #resultsTable th, #resultsTable td {
+        padding: 5px;
+        font-size: 10px; /* Further reduced font size for mobile */
+    }
+    .chart-container { /* Renamed from .chart-wrapper */
+        width: calc(100% - 10px); /* Full width for charts on small screens */
+        padding: 6px;
+    }
+}

@@ -1,0 +1,574 @@
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap');
+
+body {
+    font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    direction: rtl;
+    background: url('Background.jpg') no-repeat center center fixed; /* تنظیم بک‌گراند */
+    background-size: cover;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh; /* برای پوشش کل صفحه */
+}
+
+.header {
+    width: 100%;
+    background-color: transparent; /* پس‌زمینه هدر شفاف شد */
+    padding: 0;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 10px; /* Reduced margin */
+}
+
+.header-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.container {
+    max-width: 1300px; /* Increased max-width */
+    width: 98%; /* Slightly increased width for more space */
+    padding: 10px; /* Reduced padding */
+    margin: 0 auto;
+    background-color: transparent; /* Main container also transparent */
+    box-shadow: none; /* No shadow for main container */
+    border-radius: 0;
+}
+/* Basic Button Styles */
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem; /* Default padding */
+    font-size: 1rem; /* Default font size */
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+.btn:hover {
+    text-decoration: none;
+}
+
+.btn:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+/* Specific Button Colors */
+.btn-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.btn-info {
+    color: #fff;
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.btn-info:hover {
+    color: #fff;
+    background-color: #117a8b;
+    border-color: #0f6674;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    color: #fff;
+    background-color: #bd2130;
+    border-color: #b21f2d;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    color: #fff;
+    background-color: #1e7e34;
+    border-color: #1c7430;
+}
+
+.btn-warning {
+    color: #212529;
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.btn-warning:hover {
+    color: #212529;
+    background-color: #e0a800;
+    border-color: #d39e00;
+}
+
+h1 {
+    text-align: center;
+    color: #fff; /* White color for better visibility on transparent background */
+    margin-bottom: 10px; /* Reduced margin */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Text shadow for better visibility */
+}
+
+/* این بخش top-controls برای چیدمان کارت‌های اصلی در یک ردیف است */
+.top-controls {
+    display: flex;
+    flex-wrap: wrap; /* اجازه می‌دهد کارت‌ها در صورت کمبود فضا به خط بعد بروند */
+    gap: 10px; /* فاصله بین کارت‌ها */
+    justify-content: center; /* کارت‌ها را در مرکز افقی قرار می‌دهد */
+    margin-bottom: 10px;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.7); /* Transparent white background */
+    padding: 10px; /* Reduced padding */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow for depth */
+    margin-bottom: 10px; /* Reduced margin */
+    min-width: 280px; /* Minimum width for cards (default, overridden by specific cards) */
+    align-self: flex-start; /* کارت‌ها از بالای ردیف شروع شوند */
+    flex-grow: 1; /* به کارت‌ها اجازه رشد متناسب می‌دهد */
+}
+
+.card h2 {
+    margin-top: 0;
+    margin-bottom: 8px; /* Reduced margin */
+    color: #333;
+    font-size: 1.1em; /* Slightly smaller heading */
+    text-align: center;
+}
+
+
+/* *** تغییرات درخواستی شما برای چیدمان کادرها *** */
+
+/* تنظیمات کلی برای چهار کادر در top-controls */
+.file-upload-card,
+.time-calc-card,
+.filter-calc-card,
+.export-buttons-card { /* از کلاس export-buttons-card استفاده می‌کنیم */
+    flex-basis: calc(25% - 10px); /* برای 4 ستون: 100% / 4 = 25%، سپس gap را کم می‌کنیم */
+    max-width: calc(25% - 10px); /* حداکثر عرض برای جلوگیری از بیش از حد بزرگ شدن */
+    min-width: 200px; /* حداقل عرض برای جلوگیری از بیش از حد کوچک شدن */
+    box-sizing: border-box; /* اطمینان از اینکه پدینگ و بردر در عرض نهایی لحاظ شوند */
+}
+
+
+/* تنظیمات داخلی برای هر کادر */
+
+/* 1. کادر "ورودی و پردازش" */
+.file-input-section {
+    display: flex;
+    flex-direction: column; /* اینپوت و نام فایل و سلکت شیت زیر هم */
+    gap: 6px;
+    align-items: stretch; /* تمام عرض موجود را بگیرند */
+}
+
+.file-input-section input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.9em;
+    text-align: center; /* متن دکمه وسط چین شود */
+}
+
+.file-name-display {
+    text-align: center; /* نام فایل وسط چین شود */
+    font-size: 0.85em;
+    color: #555;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#sheetSelect {
+    width: 100%; /* کامبوباکس شیت تمام عرض را بگیرد */
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9em;
+    box-sizing: border-box;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column; /* دکمه‌های پردازش و شروع مجدد زیر هم */
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.action-buttons button {
+    width: 100%; /* دکمه‌ها تمام عرض را بگیرند */
+    padding: 6px 12px;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+/* 2. کادر "تنظیمات زمان و نوع محاسبه بار" */
+.load-settings-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.time-calc-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* پخش شدن آیتم‌ها در عرض */
+    gap: 4px; /* فاصله بین آیتم‌ها */
+    flex-wrap: nowrap;
+}
+
+.time-calc-row label {
+    flex-shrink: 0;
+    font-size: 0.85em;
+    white-space: nowrap;
+}
+
+.time-calc-row select {
+    padding: 2px 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.8em;
+    flex-grow: 1; /* اجازه می‌دهد کمی فضای باقی‌مانده را پر کند */
+    max-width: 80px; /* حداکثر عرض برای select */
+}
+
+.hour-input, .minute-input {
+    width: 35px; /* عرض کوچک برای ساعت و دقیقه */
+    text-align: center;
+    padding: 2px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.8em;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.colon {
+    font-weight: bold;
+    color: #555;
+    font-size: 0.85em;
+    flex-shrink: 0;
+}
+
+.range-label {
+    font-size: 0.85em;
+    flex-shrink: 0;
+    white-space: nowrap;
+    margin-right: 2px; /* کمی فاصله از المان قبلی */
+}
+
+
+/* 3. کادر "تنظیمات فیلتر و محاسبات" */
+.filter-options-group {
+    display: flex;
+    flex-direction: column; /* هر گروه فیلتر زیر هم باشد */
+    gap: 8px;
+}
+
+.filter-group-item { /* استفاده از کلاس filter-group-item طبق HTML شما */
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: flex-start; /* آیتم‌ها را از سمت راست شروع می‌کند (rtl) */
+}
+
+.filter-group-item label {
+    flex-shrink: 0;
+    font-size: 0.85em;
+    color: #333;
+    white-space: nowrap;
+}
+
+.filter-group-item input[type="checkbox"] {
+    margin-left: 5px;
+    margin-right: 0;
+    flex-shrink: 0;
+}
+
+.filter-group-item input[type="number"] {
+    width: 60px; /* عرض کوچک برای ورودی فیلتر */
+    padding: 2px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.8em;
+    text-align: center;
+    box-sizing: border-box;
+    flex-grow: 1; /* اجازه رشد به تکست‌باکس‌ها */
+    max-width: 80px; /* حداکثر عرض برای تکست‌باکس‌ها */
+}
+/* 4. کادر "خروجی‌ها" */
+.export-buttons-card { /* کلاس جدید برای کادر خروجی‌ها */
+    flex-basis: 180px; /* یک عرض پایه کوچکتر */
+    max-width: 220px; /* حداکثر عرض کوچکتر */
+    min-width: 150px; /* حداقل عرض برای نمایش مناسب */
+    flex-grow: 0; /* از رشد بیش از حد جلوگیری می‌کند */
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* دکمه‌ها را در مرکز افقی کادر قرار می‌دهد */
+    justify-content: flex-start; /* محتوا را از بالا شروع کند */
+}
+
+.export-buttons { /* container برای دکمه‌های داخل کادر خروجی */
+    display: flex;
+    flex-direction: column; /* دکمه‌ها زیر هم */
+    gap: 4px;
+    /* width: 100%; /* این خط را حذف یا کامنت کنید */
+    align-items: center; /* اضافه شدن این خط برای وسط چین کردن دکمه‌های با عرض max-content */
+}
+
+.export-buttons button {
+    width: max-content; /* تغییر عرض به اندازه محتوا */
+    padding: 6px 8px;
+    font-size: 0.8em;
+    text-align: center; /* متن دکمه وسط چین شود */
+}
+
+/* Table Styles */
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* Horizontal scrollbar for table */
+    margin-bottom: 10px; /* Reduced margin */
+    direction: rtl; /* Ensure scrollbar is on the right */
+    border-radius: 8px; /* Match card border radius */
+    background-color: rgba(255, 255, 255, 0.7); /* Transparent background for table container */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Match card shadow */
+}
+
+#resultsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0; /* Remove internal margins */
+    font-size: 0.8em; /* Significantly smaller font for table to fit more */
+    white-space: nowrap; /* Prevent text wrapping in table cells */
+    min-width: 1000px; /* Ensure a minimum width to prevent excessive squeezing */
+}
+
+#resultsTable th, #resultsTable td {
+    border: 1px solid rgba(204, 204, 204, 0.7); /* Lighter, transparent border */
+    padding: 3px 6px; /* Greatly reduced padding */
+    text-align: center;
+    vertical-align: middle; /* Center content vertically */
+}
+
+#resultsTable th {
+    background-color: rgba(240, 240, 240, 0.7); /* Lighter, transparent header background */
+    color: #333;
+    font-weight: bold;
+}
+
+#resultsTable tbody tr:nth-child(even) {
+    background-color: rgba(249, 249, 249, 0.5); /* Lighter, more transparent alternate row */
+}
+
+#resultsTable tbody tr:hover {
+    background-color: rgba(230, 230, 230, 0.7); /* Hover effect with transparency */
+}
+
+/* Button styles within the table */
+#resultsTable .btn {
+    padding: 3px 6px; /* Smaller padding for table buttons */
+    font-size: 0.75em; /* Smaller font for table buttons */
+    margin: 0 2px; /* Small margin between buttons */
+}
+
+
+/* Chart Specific Styles */
+#chartsContainer {
+    padding: 10px;
+    overflow-y: auto;
+    max-height: 800px;
+    margin-bottom: 10px;
+    width: 100%; /* اطمینان از اینکه کل عرض موجود را بگیرد */
+}
+
+.charts-grid {
+    display: flex;
+    flex-wrap: wrap; /* اجازه می‌دهد نمودارها به خط بعد بروند */
+    gap: 10px; /* فاصله بین نمودارها */
+    justify-content: center; /* نمودارها را در مرکز افقی قرار می‌دهد */
+}
+
+.chart-container {
+    position: relative;
+    /* برای 3 ستون: 100% / 3 = 33.333%، سپس gap را کم می‌کنیم */
+    width: calc(33.333% - 10px); /* 3 نمودار در هر ردیف */
+    max-width: 400px; /* حداکثر عرض برای جلوگیری از بیش از حد بزرگ شدن نمودارها */
+    height: 250px; /* ارتفاع ثابت برای نمودارها */
+    flex-shrink: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.chart-container h3 {
+    font-size: 1em; /* Smaller heading for charts */
+    margin-bottom: 5px;
+}
+.chart-container p {
+    font-size: 0.75em; /* Smaller text for address/reduction */
+    margin-bottom: 3px;
+}
+
+
+.chart-container canvas {
+    max-width: 100%;
+    height: 100%; /* Make canvas fill its wrapper height */
+    display: block; /* Ensure no extra space below canvas */
+}
+
+.chart-download-btn {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    background-color: #00bcd4;
+    color: white;
+    border: none;
+    padding: 4px 6px; /* Reduced padding */
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.7em; /* Smaller font */
+    z-index: 20;
+    transition: background-color 0.2s;
+}
+
+.chart-download-btn:hover {
+    background-color: #0097a7;
+}
+
+/* Styles for progress bar */
+#status {
+    width: 100%;
+    margin-top: 10px;
+}
+
+#progress-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 15px;
+    margin-bottom: 5px;
+    display: none; /* Hidden by default */
+}
+
+#progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: #4CAF50;
+    text-align: center;
+    color: white;
+    font-size: 0.7em;
+    line-height: 15px;
+    border-radius: 5px;
+    transition: width 0.3s ease-in-out;
+}
+
+#progress-label {
+    text-align: center;
+    font-size: 0.8em;
+    color: #555;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    /* در این رزولوشن، کارت‌های کنترل به دو ستون تقسیم می‌شوند */
+    .file-upload-card,
+    .time-calc-card,
+    .filter-calc-card,
+    .export-buttons-card {
+        flex-basis: calc(50% - 10px); /* 2 کارت در هر ردیف */
+        max-width: calc(50% - 10px);
+    }
+    .chart-container {
+        width: calc(50% - 10px); /* 2 نمودار در هر ردیف در صفحه متوسط */
+    }
+}
+
+@media (max-width: 768px) {
+    .top-controls {
+        flex-direction: column; /* کارت‌ها روی هم قرار بگیرند */
+        align-items: stretch; /* تمام عرض را بگیرند */
+    }
+    .card { /* Default for all cards on mobile */
+        min-width: unset;
+        width: 100%;
+        max-width: unset;
+        flex-basis: auto;
+        flex-grow: 1;
+    }
+    /* برای هر ردیف داخلی کارت‌ها */
+    .file-input-section,
+    .action-buttons,
+    .filter-group-item, /* از کلاس filter-group-item استفاده کنید */
+    .time-calc-row {
+        flex-direction: column; /* در موبایل عمودی شوند */
+        align-items: stretch; /* تمام عرض را بگیرند */
+        gap: 6px;
+    }
+    /* برای تکست‌باکس‌ها، لیبل‌ها، دکمه‌ها و select در موبایل */
+    .file-input-section .custom-file-upload,
+    .file-name-display,
+    #sheetSelect,
+    .action-buttons button,
+    .filter-group-item label, /* از کلاس filter-group-item استفاده کنید */
+    .filter-group-item input[type="number"], /* از کلاس filter-group-item استفاده کنید */
+    .time-calc-row label,
+    .hour-input, .minute-input,
+    .time-calc-row select {
+        width: 100%;
+        max-width: unset;
+        text-align: center;
+    }
+    .filter-group-item input[type="checkbox"] {
+        align-self: flex-start; /* چک‌باکس در موبایل به راست متمایل شود */
+    }
+    .filter-group-item { /* برای تراز بهتر چک باکس در موبایل */
+        align-items: flex-start;
+    }
+    .chart-container {
+        width: calc(100% - 10px); /* 1 نمودار در هر ردیف در موبایل */
+        height: 220px;
+    }
+}

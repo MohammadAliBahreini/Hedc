@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ابزار تحلیل مصرف برق مشترکین</title>
+    <link rel="stylesheet" href="css/style10.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="header">
+        <img src="header.png" alt="هدر سایت" class="header-image">
+    </div>
+
+    <div class="container">
+        <h1>ابزار تحلیل و مدیریت مصرف برق مشترکین</h1>
+
+        <div class="top-controls">
+            <div class="card file-upload-card">
+                <h2>ورودی و پردازش</h2>
+                <div class="file-input-section">
+                    <input type="file" id="excelFile" accept=".xlsx, .xls">
+                    <label for="excelFile" class="custom-file-upload btn-info" title="فایل اکسل خود را انتخاب کنید">
+                        انتخاب فایل اکسل
+                    </label>
+                    <span id="fileNameDisplay" class="file-name-display">فایل انتخاب نشده است.</span>
+                    <select id="sheetSelect" disabled title="شیت مورد نظر را انتخاب کنید">
+                        <option value="">- Sheet1 -</option>
+                    </select>
+                </div>
+                <div class="action-buttons">
+                    <button id="processDataBtn" class="btn-primary" disabled title="داده‌ها را از فایل اکسل پردازش کنید">پردازش داده‌ها</button>
+                    <button id="resetAppBtn" class="btn-danger" title="برنامه را به حالت اولیه بازنشانی کنید">بازنشانی برنامه</button>
+                </div>
+                <div id="progress-container" class="progress-container">
+                    <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    <span id="progress-label" class="progress-label"></span>
+                </div>
+                <p id="processStatusMessage" class="status-message"></p>
+            </div>
+
+            <div class="card time-calc-card">
+                <h2>تنظیمات پیک بار</h2>
+                <div class="time-calc-row">
+                    <label for="morningPeakStart"> صبح از:</label>
+                    <input type="time" id="morningPeakStart" value="08:00" title="ساعت شروع دوره بار صبح را وارد کنید">
+                    <label for="morningPeakEnd">نا :</label>
+                    <input type="time" id="morningPeakEnd" value="13:00" title="ساعت پایان دوره بار صبح را وارد کنید">
+                    <select id="morningCalcType" title="نوع محاسبه بار صبح را انتخاب کنید">
+                        <option value="avg">میانگین</option>
+                        <option value select ="max">حداکثر</option>
+                        <option value="min">حداقل</option>
+                    </select>
+                </div>
+                <div class="time-calc-row">
+                    <label for="eveningPeakStart">شروع عصر (ساعت):</label>
+                    <input type="time" id="eveningPeakStart" value="13:15" title="ساعت شروع دوره بار عصر را وارد کنید">
+                    <label for="eveningPeakEnd">پایان عصر (ساعت):</label>
+                    <input type="time" id="eveningPeakEnd" value="16:00" title="ساعت پایان دوره بار عصر را وارد کنید">
+                    <select id="eveningCalcType" title="نوع محاسبه بار عصر را انتخاب کنید">
+                        <option value select="avg">میانگین</option>
+                        <option value="max">حداکثر</option>
+                        <option value="min">حداقل</option>
+                    </select>
+                </div>
+                </div>
+
+            <div class="card filter-calc-card">
+                <h2>فیلتر و جستجو</h2>
+                <div class="filter-group-item">
+                    <label for="filterColumn">فیلتر بر اساس:</label>
+                    <select id="filterColumn" title="ستون مورد نظر برای فیلتر را انتخاب کنید">
+                        <option value="all">همه ستون‌ها</option>
+                        <option value="serialNo">سریال</option>
+                        <option value="customerName">نام مشترک</option>
+                        <option value="billingId">شناسه قبض</option>
+                        <option value="customerId">شناسه مشترک</option>
+                        <option value="address">آدرس</option>
+                    </select>
+                </div>
+                <div class="filter-group-item">
+                    <label for="filterValue">مقدار فیلتر:</label>
+                    <input type="text" id="filterValue" placeholder="مقدار را وارد کنید..." title="عبارت مورد نظر برای جستجو را وارد کنید">
+                </div>
+                <div class="action-buttons">
+                    <button id="applyFilterBtn" class="btn-secondary" title="اعمال فیلتر بر روی جدول">اعمال فیلتر</button>
+                    <button id="clearFilterBtn" class="btn-secondary" title="پاک کردن فیلتر و نمایش همه داده‌ها">پاک کردن فیلتر</button>
+                </div>
+            </div>
+
+            <div class="card export-buttons-card">
+                <h2>خروجی گرفتن</h2>
+                <div class="action-buttons">
+                    <button id="exportExcelBtn" class="btn-success" disabled title="خروجی گرفتن از داده‌های جدول به فرمت اکسل">خروجی اکسل</button>
+                    <button id="exportPdfBtn" class="btn-success" disabled title="خروجی گرفتن از داده‌های جدول به فرمت PDF">خروجی PDF (جدول)</button>
+                    <button id="exportChartsAsImagesBtn" class="btn-success" disabled title="خروجی گرفتن از نمودارهای نمایش داده شده به فرمت PDF">خروجی PDF (نمودارها)</button>
+                    <button id="renderAllChartsBtn" class="btn-secondary" disabled title="رسم همه نمودارهای مشترکین (ممکن است زمان‌بر باشد)">رسم همه نمودارها</button>
+                    <button id="exportLogFile" class="btn-secondary" title="دانلود فایل لاگ برنامه برای اشکال‌زدایی">دانلود لاگ</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultsTableContainer" class="card">
+            <h2>داده‌های پردازش شده</h2>
+            <table id="resultsTable" class="data-table">
+                <thead>
+                    <tr>
+                        <th>ردیف</th>
+                        <th>سریال</th>
+                        <th>تاریخ</th>
+                        <th>نام مشترک</th>
+                        <th>شناسه قبض</th>
+                        <th>شناسه مشترک</th>
+                        <th>دیماند قراردادی (KW)</th>
+                        <th>آدرس</th>
+                        <th>بار صبح (KW)</th>
+                        <th>بار عصر (KW)</th>
+                        <th>میزان کاهش (KW)</th>
+                        <th>درصد کاهش (%)</th>
+                        <th>نمودار</th>
+                        <th>حذف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="chartsContainer" class="card">
+            <h2>پروفیل بارهای مشترکین</h2>
+            <p id="noChartsMessage" style="text-align: center; color: #777; margin-top: 20px;">
+                برای نمایش نمودارها، لطفاً ابتدا داده‌ها را پردازش کنید.
+            </p>
+            <div class="charts-grid">
+                </div>
+        </div>
+
+    </div>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://unpkg.com/jspdf-autotable@3.5.23/dist/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="js/Charts10.js"></script>
+</body>
+</html>

@@ -1,0 +1,467 @@
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap');
+
+body {
+    font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    direction: rtl;
+    background: url('Background.jpg') no-repeat center center fixed; /* تنظیم بک‌گراند */
+    background-size: cover;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh; /* برای پوشش کل صفحه */
+}
+
+.header {
+    width: 100%;
+    background-color: transparent; /* پس‌زمینه هدر شفاف شد */
+    padding: 0;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 10px; /* Reduced margin */
+}
+
+.header-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.container {
+    max-width: 1300px; /* Increased max-width */
+    width: 98%; /* Slightly increased width for more space */
+    padding: 10px; /* Reduced padding */
+    margin: 0 auto;
+    background-color: transparent; /* Main container also transparent */
+    box-shadow: none; /* No shadow for main container */
+    border-radius: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #fff; /* White color for better visibility on transparent background */
+    margin-bottom: 10px; /* Reduced margin */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Text shadow for better visibility */
+}
+
+/* این بخش top-controls برای چیدمان کارت‌های اصلی در یک ردیف است */
+.top-controls {
+    display: flex;
+    flex-wrap: wrap; /* اجازه می‌دهد کارت‌ها در صورت کمبود فضا به خط بعد بروند */
+    gap: 10px; /* فاصله بین کارت‌ها */
+    justify-content: center; /* کارت‌ها را در مرکز افقی قرار می‌دهد */
+    margin-bottom: 10px;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.7); /* Transparent white background */
+    padding: 10px; /* Reduced padding */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow for depth */
+    margin-bottom: 10px; /* Reduced margin */
+    /* flex: 1; /* این خط را اینجا حذف می‌کنیم تا flex-basis و max-width در هر کارت جداگانه کار کنند */
+    min-width: 280px; /* Minimum width for cards (default, overridden by specific cards) */
+    align-self: flex-start; /* کارت‌ها از بالای ردیف شروع شوند */
+}
+
+.card h2 {
+    margin-top: 0;
+    margin-bottom: 8px; /* Reduced margin */
+    color: #333;
+    font-size: 1.1em; /* Slightly smaller heading */
+    text-align: center;
+}
+
+
+/* 4. ورودی و پردازش: چیدمان دکمه انتخاب فایل و نام فایل در یک خط، و کامبوباکس و دکمه‌ها در یک خط دیگر */
+.file-upload-card {
+    flex-basis: 350px; /* عرض پایه برای کارت ورودی و پردازش */
+    max-width: 400px;
+    min-width: 300px;
+    flex-grow: 1; /* اجازه دهید این کارت هم کمی رشد کند */
+    padding: 10px;
+}
+
+.file-input-section {
+    display: flex; /* برای چیدمان افقی */
+    flex-direction: row; /* آیتم‌ها در یک ردیف */
+    flex-wrap: wrap; /* در صورت نیاز به خط بعد بروند */
+    gap: 6px; /* فاصله بین آیتم‌ها */
+    align-items: center; /* تراز عمودی */
+    justify-content: flex-start; /* شروع از راست (RTL) */
+}
+
+input[type="file"] {
+    display: none; /* فایل اینپوت اصلی پنهان است */
+}
+
+.custom-file-upload {
+    flex-shrink: 0; /* دکمه کوچک نشود */
+    display: inline-block;
+    padding: 6px 12px; /* Reduced padding */
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.9em; /* Slightly smaller font */
+}
+
+.file-name-display {
+    flex-grow: 1; /* نام فایل فضای باقی‌مانده را پر کند */
+    min-width: 120px; /* حداقل عرض برای نمایش نام فایل */
+    text-align: right; /* متن نام فایل راست چین باشد */
+    white-space: nowrap; /* جلوگیری از شکستن خط */
+    overflow: hidden; /* مخفی کردن سرریز */
+    text-overflow: ellipsis; /* نمایش سه نقطه در صورت سرریز */
+    font-size: 0.85em; /* Smaller font */
+    color: #555;
+    margin-top: 0; /* حذف مارجین بالای اضافه */
+}
+
+/* این بخش برای کامبوباکس شیت و دکمه‌های پردازش/شروع مجدد */
+.action-buttons {
+    display: flex;
+    flex-direction: row; /* در یک ردیف افقی */
+    flex-wrap: wrap; /* در صورت نیاز به خط بعد بروند */
+    gap: 6px;
+    margin-top: 8px;
+    justify-content: flex-start; /* شروع از راست (RTL) */
+    align-items: center; /* تراز عمودی */
+}
+
+#sheetSelect {
+    flex-grow: 0; /* اجازه ندهید شیت خیلی بزرگ شود */
+    width: auto; /* عرض خودکار بر اساس محتوا */
+    min-width: 100px; /* حداقل عرض برای کامبوباکس شیت */
+    max-width: 150px; /* حداکثر عرض برای کامبوباکس شیت */
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.action-buttons button {
+    flex-grow: 0; /* دکمه‌ها رشد نکنند */
+    flex-shrink: 0; /* دکمه‌ها کوچک نشوند */
+    padding: 6px 12px;
+    font-size: 0.9em;
+}
+
+/* 2. تنظیمات فیلتر و محاسبات: تکست باکس‌ها کوچک، جلوی لیبل، کادر کوچک */
+.filter-calc-card {
+    flex-basis: 220px; /* یک عرض پایه کوچک */
+    max-width: 250px; /* حداکثر عرض مجاز */
+    min-width: 180px; /* حداقل عرض برای نمایش مناسب */
+    flex-grow: 0; /* از رشد بیش از حد جلوگیری می‌کند */
+    padding: 10px; /* پدینگ داخلی کارت را کم کنید */
+}
+
+.filter-options-group {
+    display: flex;
+    flex-direction: column; /* هر گروه فیلتر زیر هم باشد*/
+    gap: 8px;
+}
+
+.filter-group {
+    display: flex; /* برای چیدمان افقی چک‌باکس، لیبل و ورودی */
+    align-items: center; /* تراز عمودی آیتم‌ها در یک ردیف */
+    gap: 4px; /* فاصله بسیار کوچک بین لیبل و ورودی */
+    flex-wrap: nowrap; /* از شکستن خط جلوگیری می‌کند */
+    justify-content: flex-start; /* آیتم‌ها را از سمت راست شروع می‌کند (rtl) */
+}
+
+.filter-group label {
+    flex-shrink: 0;
+    font-size: 0.85em; /* کوچکتر کردن فونت لیبل‌ها */
+    color: #333;
+    white-space: nowrap; /* جلوگیری از شکستن خط لیبل */
+}
+
+.filter-group input[type="checkbox"] {
+    margin-left: 5px; /* فضای بعد از چک‌باکس در راست به چپ */
+    margin-right: 0;
+    flex-shrink: 0;
+}
+
+.filter-group input[type="number"] {
+    width: 45px; /* عرض بسیار کوچک برای یک یا دو رقم */
+    padding: 2px; /* کاهش پدینگ */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.8em; /* کوچکتر کردن فونت درون ورودی */
+    text-align: center;
+    box-sizing: border-box; /* اطمینان از اینکه پدینگ و بردر در عرض نهایی لحاظ شوند */
+}
+
+
+/* 3. تنظیمات زمان و نوع محاسبه بار: عرض کادر زیادتر */
+.time-calc-card {
+    flex-basis: 400px; /* یک عرض پایه بزرگتر */
+    max-width: 450px; /* حداکثر عرض مجاز */
+    min-width: 320px; /* حداقل عرض برای نمایش مناسب */
+    flex-grow: 1; /* اجازه می‌دهیم این کارت بیشتر رشد کند */
+    padding: 10px; /* پدینگ داخلی کارت را تنظیم کنید */
+}
+
+.load-settings-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.time-calc-row {
+    display: flex;
+    align-items: center;
+    gap: 4px; /* فاصله بین آیتم‌ها */
+    flex-wrap: nowrap; /* جلوگیری از شکستن خط */
+    justify-content: flex-start;
+}
+
+.time-calc-row label {
+    flex-shrink: 0;
+    font-size: 0.85em;
+    white-space: nowrap;
+}
+
+.hour-input, .minute-input {
+    width: 35px; /* عرض کوچک برای ساعت و دقیقه */
+    text-align: center;
+    padding: 2px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.8em;
+    box-sizing: border-box;
+}
+
+.colon, .dash {
+    font-weight: bold;
+    color: #555;
+    font-size: 0.85em;
+    flex-shrink: 0;
+}
+
+.time-calc-row select {
+    padding: 2px 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.8em;
+    flex-grow: 1; /* اجازه می‌دهد کمی فضای باقی‌مانده را پر کند */
+    max-width: 80px; /* حداکثر عرض برای select تا خیلی بزرگ نشود */
+}
+
+
+/* Table Styles */
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* Horizontal scrollbar for table */
+    margin-bottom: 10px; /* Reduced margin */
+    direction: rtl; /* Ensure scrollbar is on the right */
+    border-radius: 8px; /* Match card border radius */
+    background-color: rgba(255, 255, 255, 0.7); /* Transparent background for table container */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Match card shadow */
+}
+
+#resultsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0; /* Remove internal margins */
+    font-size: 0.7em; /* Significantly smaller font for table to fit more */
+    white-space: nowrap; /* Prevent text wrapping in table cells */
+    min-width: 1000px; /* Ensure a minimum width to prevent excessive squeezing */
+}
+
+#resultsTable th, #resultsTable td {
+    border: 1px solid rgba(204, 204, 204, 0.7); /* Lighter, transparent border */
+    padding: 3px 6px; /* Greatly reduced padding */
+    text-align: center;
+    vertical-align: middle; /* Center content vertically */
+}
+
+#resultsTable th {
+    background-color: rgba(240, 240, 240, 0.7); /* Lighter, transparent header background */
+    color: #333;
+    font-weight: bold;
+}
+
+#resultsTable tbody tr:nth-child(even) {
+    background-color: rgba(249, 249, 249, 0.5); /* Lighter, more transparent alternate row */
+}
+
+#resultsTable tbody tr:hover {
+    background-color: rgba(230, 230, 230, 0.7); /* Hover effect with transparency */
+}
+
+/* Button styles within the table */
+#resultsTable .btn {
+    padding: 3px 6px; /* Smaller padding for table buttons */
+    font-size: 0.75em; /* Smaller font for table buttons */
+    margin: 0 2px; /* Small margin between buttons */
+}
+
+
+/* Chart Specific Styles */
+#chartsContainer {
+    padding: 10px; /* Reduced padding */
+    overflow-y: auto; /* Vertical scrollbar for charts container */
+    max-height: 800px; /* Adjust as needed for scroll height */
+    margin-bottom: 10px;
+}
+
+.charts-grid {
+    display: flex;
+    flex-wrap: wrap; /* Allows charts to wrap to next line */
+    gap: 10px; /* Gap between charts */
+    justify-content: center; /* Center charts horizontally */
+}
+
+.chart-container {
+    position: relative;
+    width: calc(33.333% - 10px); /* 3 charts per row, accounting for gap */
+    max-width: 400px; /* Max width for individual chart (adjust based on design) */
+    height: 250px; /* Fixed height for charts - adjust as needed */
+    flex-shrink: 0; /* Prevent shrinking below content size */
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly less transparent for chart background */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    display: flex; /* Use flexbox to center canvas */
+    flex-direction: column; /* Stack heading and canvas vertically */
+    justify-content: center;
+    align-items: center;
+    margin-top: 0; /* Removed margin-top, gap handles spacing */
+    padding: 10px; /* Add padding to the chart card */
+}
+
+.chart-container h3 {
+    font-size: 1em; /* Smaller heading for charts */
+    margin-bottom: 5px;
+}
+.chart-container p {
+    font-size: 0.75em; /* Smaller text for address/reduction */
+    margin-bottom: 3px;
+}
+
+
+.chart-container canvas {
+    max-width: 100%;
+    height: 100%; /* Make canvas fill its wrapper height */
+    display: block; /* Ensure no extra space below canvas */
+}
+
+.chart-download-btn {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    background-color: #00bcd4;
+    color: white;
+    border: none;
+    padding: 4px 6px; /* Reduced padding */
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.7em; /* Smaller font */
+    z-index: 20;
+    transition: background-color 0.2s;
+}
+
+.chart-download-btn:hover {
+    background-color: #0097a7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .chart-container {
+        width: calc(50% - 10px); /* 2 charts per row on slightly smaller screens */
+    }
+    /* در این رزولوشن، کارت‌ها را به دو ستون تقسیم می‌کنیم */
+    .file-upload-card, .time-calc-card, .filter-calc-card, .export-buttons {
+        max-width: calc(50% - 8px); /* Explicit max-width for two columns */
+        flex-basis: auto; /* اجازه می‌دهیم فلکس‌باکس خودش عرض را تنظیم کند */
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 5px; /* Even less padding on mobile */
+    }
+    .top-controls {
+        flex-direction: column; /* Stack controls vertically on small screens */
+        align-items: stretch;
+    }
+    .card { /* Default for all cards on mobile */
+        min-width: unset; /* Remove min-width on small screens */
+        width: 100%; /* Full width */
+        max-width: unset; /* Remove max-width on small screens */
+        flex-basis: auto; /* Reset flex-basis */
+        flex-grow: 1; /* Allow cards to grow if needed */
+    }
+
+    /* Override for specific card layouts on mobile */
+    .file-input-section,
+    .action-buttons,
+    .filter-group,
+    .time-calc-row {
+        flex-direction: column; /* در موبایل عمودی شوند */
+        align-items: stretch; /* تمام عرض را بگیرند */
+        gap: 6px; /* کاهش فاصله */
+    }
+
+    .file-input-section .custom-file-upload,
+    .file-name-display,
+    #sheetSelect,
+    .action-buttons button,
+    .filter-group label,
+    .filter-group input[type="number"],
+    .time-calc-row label,
+    .hour-input, .minute-input,
+    .time-calc-row select {
+        width: 100%; /* در موبایل عرض کامل را بگیرند */
+        max-width: unset; /* محدودیت max-width را بردارید */
+        text-align: center; /* متن وسط‌چین شود */
+    }
+     .filter-group input[type="checkbox"] {
+        align-self: flex-start; /* چک‌باکس در موبایل به راست متمایل شود */
+    }
+    .filter-group {
+        align-items: flex-start; /* برای تراز بهتر چک باکس در موبایل */
+    }
+
+    .chart-container {
+        width: calc(100% - 10px); /* 1 chart per row on mobile */
+        height: 220px; /* Slightly reduce height on mobile */
+    }
+}
+
+/* Styles for progress bar */
+#status {
+    width: 100%;
+    margin-top: 10px;
+}
+
+#progress-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 15px;
+    margin-bottom: 5px;
+    display: none; /* Hidden by default */
+}
+
+#progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: #4CAF50;
+    text-align: center;
+    color: white;
+    font-size: 0.7em;
+    line-height: 15px;
+    border-radius: 5px;
+    transition: width 0.3s ease-in-out;
+}
+
+#progress-label {
+    text-align: center;
+    font-size: 0.8em;
+    color: #555;
+}
