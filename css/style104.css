@@ -1,0 +1,641 @@
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap');
+
+body {
+    font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    direction: rtl;
+    background: url('Background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.header {
+    width: 100%;
+    background-color: transparent;
+    padding: 0;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+}
+
+.header-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.container {
+    max-width: 1300px;
+    width: 98%;
+    padding: 10px;
+    margin: 0 auto;
+    background-color: transparent;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.top-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+    align-self: flex-start;
+    flex-grow: 1;
+}
+
+.card h2 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    color: #333;
+    font-size: 1.1em;
+    text-align: center;
+}
+
+/* ***  چیدمان کادرها و دکمه‌ها *** */
+
+/* تنظیمات کلی برای چهار کادر در top-controls */
+.file-upload-card,
+.time-calc-card,
+.filter-calc-card,
+.export-buttons-card {
+    box-sizing: border-box;
+}
+
+/* 1. کادر "ورودی و پردازش" */
+.file-upload-card {
+    flex-basis: calc(25% - 10px); /* برای 4 ستون */
+    max-width: calc(25% - 10px);
+    min-width: 250px; /* برای جلوگیری از خیلی کوچک شدن */
+}
+
+.file-input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    align-items: stretch;
+    margin-bottom: 6px; /* فاصله از دکمه‌ها */
+}
+
+.file-input-section input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+.file-name-display {
+    text-align: center;
+    font-size: 0.85em;
+    color: #555;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#sheetSelect {
+    width: 100%;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9em;
+    box-sizing: border-box;
+}
+
+/* دکمه‌های پردازش و شروع مجدد و کامبوباکس در یک خط قرار گیرند */
+.action-buttons {
+    display: flex; /* استفاده از فلکس‌باکس */
+    flex-wrap: wrap; /* اجازه می‌دهد دکمه‌ها در صورت نیاز به خط بعد بروند */
+    gap: 6px; /* فاصله بین دکمه‌ها */
+    justify-content: center; /* دکمه‌ها در مرکز افقی قرار گیرند */
+    align-items: center; /* دکمه‌ها در یک خط عمودی تراز شوند */
+    margin-top: 0; /* حذف margin-top اضافی */
+}
+
+.action-buttons button {
+    flex-grow: 1; /* اجازه رشد به دکمه‌ها برای پر کردن فضای موجود */
+    padding: 6px 12px;
+    font-size: 0.9em;
+    text-align: center;
+    min-width: 100px; /* حداقل عرض برای دکمه‌ها */
+}
+/* 2. کادر "تنظیمات زمان و نوع محاسبه بار" */
+.time-calc-card {
+    flex-basis: calc(30% - 10px); /* کاهش عرض کلی */
+    max-width: calc(30% - 10px);
+    min-width: 280px; /* کاهش حداقل عرض */
+    padding: 8px; /* کاهش پدینگ داخلی */
+}
+
+.time-calc-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* توزیع یکنواخت فضای باقیمانده */
+    gap: 4px;
+    margin-bottom: 6px; /* کاهش فاصله بین ردیف‌ها */
+}
+
+.time-calc-row label {
+    flex-shrink: 0;
+    font-size: 0.8em; /* کاهش اندازه فونت */
+    white-space: nowrap;
+    margin: 0 2px; /* کاهش حاشیه */
+}
+.time-calc-row input[type="time"] {
+    width: 70px; /* کاهش عرض فیلد زمان */
+    padding: 2px;
+    font-size: 0.8em;
+    flex-shrink: 0;
+}
+
+.time-calc-row select {
+    width: 70px; /* کاهش عرض کامبو باکس */
+    padding: 2px;
+    font-size: 0.8em;
+    margin-left: 0; /* حذف حاشیه چپ */
+    flex-shrink: 0;
+}
+
+/* 2. کادر "تنظیمات زمان و نوع محاسبه بار" */
+.load-settings-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.time-calc-row select {
+    padding: 2px 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.8em;
+    flex-grow: 0; /* از رشد بیش از حد جلوگیری می‌کند */
+    width: 60px; /* عرض ثابت برای سلکت */
+}
+
+.hour-input, .minute-input {
+    width: 35px;
+    text-align: center;
+    padding: 2px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.8em;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.colon {
+    font-weight: bold;
+    color: #555;
+    font-size: 0.85em;
+    flex-shrink: 0;
+}
+
+.range-label {
+    font-size: 0.85em;
+    flex-shrink: 0;
+    white-space: nowrap;
+    margin-right: 2px;
+    margin-left: 8px; /* فاصله برای "شروع" و "پایان" */
+}
+
+/* 3. کادر "تنظیمات فیلتر و محاسبات" */
+.filter-calc-card {
+    flex-basis: calc(20% - 10px);
+    max-width: calc(20% - 10px);
+    min-width: 220px;
+}
+
+.filter-options-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+}
+
+.filter-group input[type="checkbox"] {
+    order: 1; /* چک باکس را به ابتدا می‌برد */
+    margin: 0;
+    flex-shrink: 0;
+}
+.filter-group label {
+    order: 2; /* لیبل را بعد از چک باکس قرار می‌دهد */
+    flex-shrink: 0;
+    font-size: 0.85em;
+    color: #333;
+    white-space: nowrap;
+    margin-right: 4px;
+}
+
+.filter-group input[type="number"] {
+    order: 3; /* فیلد عددی را به انتها می‌برد */
+    width: 50px; /* عرض کوچک برای اعداد دو رقمی */
+    padding: 2px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.8em;
+    text-align: center;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+@media (max-width: 768px) {
+    .filter-group {
+        flex-wrap: wrap;
+    }
+    .filter-group input[type="number"] {
+        width: 100%;
+        max-width: 60px;
+        margin-right: auto;
+    }
+}
+
+/* استایل برای گروه فیلتر و جستجو */
+.filter-group-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: flex-start;
+}
+
+.filter-group-item label {
+    flex-shrink: 0;
+    font-size: 0.85em;
+    color: #333;
+    white-space: nowrap;
+}
+
+.filter-group-item select,
+.filter-group-item input[type="text"] {
+    flex-grow: 1;
+    padding: 2px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.8em;
+    box-sizing: border-box;
+}
+/* 4. کادر "خروجی‌ها" */
+.export-buttons-card {
+    flex-basis: 180px; /* یک عرض پایه کوچکتر */
+    max-width: 200px; /* حداکثر عرض کوچکتر */
+    min-width: 150px; /* حداقل عرض برای نمایش مناسب */
+    flex-grow: 0; /* از رشد بیش از حد جلوگیری می‌کند */
+    padding: 10px;
+    display: flex; /* اضافه شده برای تراز کردن محتوا */
+    flex-direction: column; /* اضافه شده برای تراز کردن محتوا */
+    align-items: center; /* اضافه شده برای تراز کردن محتوا */
+    justify-content: flex-start;
+}
+
+.export-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center; /* برای وسط چین کردن دکمه‌ها */
+}
+
+.export-buttons button {
+    width: max-content; /* عرض به اندازه محتوا */
+    padding: 6px 12px; /* پدینگ برای خوانایی بهتر */
+    font-size: 0.8em;
+    text-align: center;
+    /* transition: background-color 0.2s, transform 0.1s; */
+}
+
+/* Table Styles */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 7px;
+    direction: rtl;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+#resultsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    font-size: 0.7em; /* کمی بزرگتر برای خوانایی */
+    white-space: nowrap;
+    /* min-width: 1000px; /* این خط را حذف یا کامنت کنید تا عرض جدول خودکار تنظیم شود */
+}
+
+#resultsTable th, #resultsTable td {
+    border: 1px solid rgba(204, 204, 204, 0.7);
+    padding: 3px 7px; /* کاهش پدینگ */
+    text-align: center;
+    vertical-align: middle;
+}
+
+#resultsTable th {
+    background-color: rgba(163, 197, 226, 0.7);
+    color: #333;
+    font-weight: bold;
+}
+
+#resultsTable tbody tr:nth-child(even) {
+    background-color: rgba(249, 249, 249, 0.5);
+}
+
+#resultsTable tbody tr:hover {
+    background-color: rgba(230, 230, 230, 0.7);
+}
+
+#resultsTable .btn {
+    padding: 3px 6px;
+    font-size: 0.75em;
+    margin: 0 2px;
+}
+
+
+/* Chart Specific Styles */
+#chartsContainer {
+    padding: 10px;
+    overflow-y: auto;
+    max-height: 800px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); /* دو ستون در هر ردیف، با حداقل عرض 450px */
+    gap: 20px; /* فاصله بین نمودارها */
+    padding: 20px;
+    justify-content: center;
+    align-items: start;
+}
+/* اگر می‌خواهید در عرض‌های کوچکتر (مثل موبایل) تک ستونی شوند */
+@media (max-width: 960px) { /* می‌توانید این مقدار را تغییر دهید */
+    .charts-grid {
+        grid-template-columns: 1fr; /* یک ستون در هر ردیف */
+    }
+}
+.chart-container {
+    position: relative;
+    /* width: calc(33.333% - 10px); /* این خط را حذف کنید یا کامنت کنید */
+    /* max-width: 400px; /* این خط را حذف کنید یا کامنت کنید */
+    width: 100%; /* این باعث می‌شود نمودار تمام عرض ستون خود را اشغال کند */
+    height: 250px; /* ارتفاع را می‌توانید ثابت نگه دارید یا تغییر دهید */
+    flex-shrink: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    display: flex; /* این برای مرکز کردن محتوا داخلی است */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+.chart-container h3 {
+    font-size: 1em;
+    margin-bottom: 5px;
+}
+.chart-container p {
+    font-size: 0.75em;
+    margin-bottom: 3px;
+}
+
+.chart-container canvas {
+    max-width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.chart-download-btn {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    background-color: #00bcd4;
+    color: white;
+    border: none;
+    padding: 4px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.7em;
+    z-index: 20;
+    transition: background-color 0.2s;
+}
+
+.chart-download-btn:hover {
+    background-color: #0097a7;
+}
+
+/* Styles for progress bar */
+#status {
+    width: 100%;
+    margin-top: 10px;
+}
+
+#progress-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 15px;
+    margin-bottom: 5px;
+    display: none;
+}
+
+#progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: #4CAF50;
+    text-align: center;
+    color: white;
+    font-size: 0.7em;
+    line-height: 15px;
+    border-radius: 5px;
+    transition: width 0.3s ease-in-out;
+}
+
+#progress-label {
+    text-align: center;
+    font-size: 0.8em;
+    color: #555;
+}
+
+/* Basic Button Styles */
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+.btn:hover {
+    text-decoration: none;
+}
+
+.btn:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+/* Specific Button Colors */
+.btn-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.btn-info {
+    color: #fff;
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.btn-info:hover {
+    color: #fff;
+    background-color: #117a8b;
+    border-color: #0f6674;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    color: #fff;
+    background-color: #bd2130;
+    border-color: #b21f2d;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    color: #fff;
+    background-color: #1e7e34;
+    border-color: #1c7430;
+}
+
+.btn-warning {
+    color: #212529;
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.btn-warning:hover {
+    color: #212529;
+    background-color: #e0a800;
+    border-color: #d39e00;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .file-upload-card,
+    .time-calc-card,
+    .filter-calc-card,
+    .export-buttons-card {
+        flex-basis: calc(50% - 10px); /* 2 کارت در هر ردیف */
+        max-width: calc(50% - 10px);
+    }
+    .chart-container {
+        width: calc(50% - 10px); /* 2 نمودار در هر ردیف در صفحه متوسط */
+    }
+}
+
+@media (max-width: 768px) {
+    .top-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .card {
+        min-width: unset;
+        width: 100%;
+        max-width: unset;
+        flex-basis: auto;
+        flex-grow: 1;
+    }
+    .file-input-section,
+    .action-buttons,
+    .filter-group-item,
+    .time-calc-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+    }
+    .file-input-section .custom-file-upload,
+    .file-name-display,
+    #sheetSelect,
+    .action-buttons button,
+    .filter-group-item label,
+    .filter-group-item input[type="number"],
+    .time-calc-row label,
+    .hour-input, .minute-input,
+    .time-calc-row select {
+        width: 100%;
+        max-width: unset;
+        text-align: center;
+    }
+    .filter-group-item input[type="checkbox"] {
+        align-self: flex-start;
+    }
+    .filter-group-item {
+        align-items: flex-start;
+    }
+    .chart-container {
+        width: calc(100% - 10px);
+        height: 220px;
+    }
+}
