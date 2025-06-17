@@ -7,6 +7,16 @@
     <link rel="icon" href="data:,"> <!-- این خط از خطای favicon جلوگیری می‌کند -->
     <link rel="stylesheet" href="css/style10.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <!-- کتابخانه‌های اصلی با میزبانی محلی -->
+    <script src="lib/xlsx.full.min.js"></script>
+    <script src="lib/chart.umd.min.js"></script>
+    <script src="lib/chartjs-plugin-annotation.min.js"></script>
+    <script src="lib/sweetalert2.min.js"></script>
+    <script src="lib/jspdf.umd.min.js"></script>
+    <script src="lib/html2canvas.min.js"></script>
+    <script src="lib/jspdf-autotable.min.js"></script>
+    <script src="lib/FileSaver.min.js"></script>
 </head>
 <body>
     <div class="header">
@@ -175,9 +185,9 @@
     //----------------------------
         <!-- کتابخانه‌های اصلی -->
          <!-- جایگزین‌های مطمئن برای CDNها -->
-          <script src="lib/chart.umd.min.js"></script>
-<script src="lib/chartjs-plugin-annotation.min.js"></script>
-<script src="lib/sweetalert2.min.js"></script>
+          <!-- <script src="lib/chart.umd.min.js"></script> -->
+<!-- <script src="lib/chartjs-plugin-annotation.min.js"></script> -->
+<!-- <script src="lib/sweetalert2.min.js"></script> -->
 <!-- <script src="https://unpkg.com/chart.js@4.4.2/dist/chart.umd.min.js"></script> -->
 <!-- <script src="https://unpkg.com/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script> -->
 <!-- <script src="https://unpkg.com/sweetalert2@11"></script> -->
@@ -196,20 +206,54 @@
     <script src="js/Charts10.js"></script>
 
     <script>
-        // بررسی وجود کتابخانه‌های ضروری
+        // مدیریت جامع خطاها
         document.addEventListener('DOMContentLoaded', function() {
-            if (typeof Chart === 'undefined' || typeof Swal === 'undefined') {
-                console.error("کتابخانه‌های ضروری بارگذاری نشده‌اند");
-                alert("خطا در بارگذاری کتابخانه‌های ضروری. لطفاً صفحه را مجدداً بارگذاری کنید.");
-                return;
-            }
-            
             try {
-                // ثبت پلاگین‌های Chart.js
-                Chart.register(window['chartjs-plugin-annotation']);
-                console.log("کتابخانه‌ها با موفقیت بارگذاری شدند");
-            } catch (e) {
-                console.error("خطا در ثبت پلاگین‌ها:", e);
+                // بررسی وجود کتابخانه‌های ضروری
+                const requiredLibs = {
+                    'Chart.js': typeof Chart,
+                    'SweetAlert2': typeof Swal,
+                    'jsPDF': typeof jsPDF
+                };
+                
+                for (const [lib, type] of Object.entries(requiredLibs)) {
+                    if (type === 'undefined') {
+                        throw new Error(`کتابخانه ${lib} بارگذاری نشده است`);
+                    }
+                }
+
+                // ثبت پلاگین‌ها با بررسی وجود آنها
+                if (window['chartjs-plugin-annotation']) {
+                    Chart.register(window['chartjs-plugin-annotation']);
+                    console.log("پلاگین‌های Chart.js با موفقیت ثبت شدند");
+                } else {
+                    console.warn("پلاگین annotations یافت نشد");
+                }
+
+                // مقداردهی اولیه برنامه با بررسی وجود توابع
+                if (window.initApp && typeof initApp === 'function') {
+                    initApp();
+                } else {
+                    console.error("تابع initApp تعریف نشده است");
+                }
+                
+            } catch (error) {
+                console.error("خطای اصلی:", error);
+                // نمایش پیام خطای کاربرپسند
+                const errorDiv = document.createElement('div');
+                errorDiv.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    background: #ff4444;
+                    color: white;
+                    padding: 15px;
+                    text-align: center;
+                    z-index: 9999;
+                `;
+                errorDiv.textContent = 'خطایی در راه‌اندازی برنامه رخ داده است. لطفاً صفحه را مجدداً بارگذاری کنید.';
+                document.body.prepend(errorDiv);
             }
         });
     </script>

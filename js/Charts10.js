@@ -49,31 +49,82 @@ const DISPLAY_COLUMNS = [
     'Demand Factor (DMF) [%]', 'Peak Hour'
 ];
 
+// تعریف عناصر صفحه به صورت مرکزی
+const elements = {
+    processBtn: document.getElementById('processDataBtn'),
+    resetBtn: document.getElementById('resetAppBtn'),
+    excelFile: document.getElementById('excelFile'),
+    sheetSelect: document.getElementById('sheetSelect'),
+    dataTableBody: document.getElementById('dataTableBody'),
+    fileNameDisplay: document.getElementById('fileNameDisplay'),
+    chartsContainer: document.getElementById('chartsContainer'),
+    noChartsMessage: document.getElementById('noChartsMessage'),
+    exportPdfBtn: document.getElementById('exportPdfBtn'),
+    exportExcelBtn: document.getElementById('exportExcelBtn'),
+    exportChartsAsImagesBtn: document.getElementById('exportChartsAsImagesBtn'),
+    exportLogFileBtn: document.getElementById('exportLogFile'),
+    searchInput: document.getElementById('filterValue'), // توجه: در کد شما این شناسه تغییر کرده
+    filterCustomerBtn: document.getElementById('applyFilterBtn'),
+    clearFilterBtn: document.getElementById('clearFilterBtn'),
+    minConsumptionInput: document.getElementById('txtEvening'),
+    maxConsumptionInput: document.getElementById('txtReduction'),
+    filterConsumptionBtn: document.getElementById('filterConsumptionBtn'),
+    clearConsumptionFilterBtn: document.getElementById('clearConsumptionFilterBtn'),
+    timePeriodSelect: document.getElementById('timePeriodSelect'),
+    calculateTimePeriodBtn: document.getElementById('calculateTimePeriodBtn'),
+    timePeriodResultDiv: document.getElementById('timePeriodResult'),
+    renderAllChartsBtn: document.getElementById('renderAllChartsBtn'),
+    dataTable: document.getElementById('resultsTable')
+};
 
+// بررسی وجود همه عناصر
+function validateElements() {
+    let allElementsExist = true;
+    for (const [name, element] of Object.entries(elements)) {
+        if (!element) {
+            console.error(`عنصر ${name} یافت نشد!`);
+            allElementsExist = false;
+            
+            // نمایش پیام خطا فقط در حالت توسعه
+            if (process.env.NODE_ENV === 'development') {
+                alert(`عنصر ${name} در صفحه یافت نشد!`);
+            }
+        }
+    }
+    return allElementsExist;
+}
+
+// اجرای بررسی عناصر هنگام بارگذاری صفحه
+document.addEventListener('DOMContentLoaded', function() {
+    if (!validateElements()) {
+        console.error('برخی عناصر ضروری در صفحه یافت نشدند!');
+        // در اینجا می‌توانید تصمیم بگیرید که چگونه با خطا برخورد کنید
+    }
+});
 // شناسه عناصر HTML
-const excelFile = document.getElementById('excelFile');
-const sheetSelect = document.getElementById('sheetSelect');
-const processBtn = document.getElementById('processBtn');
-const dataTableBody = document.getElementById('dataTableBody');
-const fileNameDisplay = document.getElementById('fileNameDisplay');
-const chartsContainer = document.getElementById('chartsContainer');
-const noChartsMessage = document.getElementById('noChartsMessage');
-const exportPdfBtn = document.getElementById('exportPdfBtn');
-const exportExcelBtn = document.getElementById('exportExcelBtn');
-const exportChartsAsImagesBtn = document.getElementById('exportChartsAsImagesBtn');
-const exportLogFileBtn = document.getElementById('exportLogFileBtn');
-const searchInput = document.getElementById('searchInput');
-const filterCustomerBtn = document.getElementById('filterCustomerBtn');
-const clearFilterBtn = document.getElementById('clearFilterBtn');
-const minConsumptionInput = document.getElementById('minConsumption');
-const maxConsumptionInput = document.getElementById('maxConsumption');
-const filterConsumptionBtn = document.getElementById('filterConsumptionBtn');
-const clearConsumptionFilterBtn = document.getElementById('clearConsumptionFilterBtn');
-const timePeriodSelect = document.getElementById('timePeriodSelect');
-const calculateTimePeriodBtn = document.getElementById('calculateTimePeriodBtn');
-const timePeriodResultDiv = document.getElementById('timePeriodResult');
-const renderAllChartsBtn = document.getElementById('renderAllChartsBtn');
-const dataTable = document.getElementById('dataTable');
+// const excelFile = document.getElementById('excelFile');
+// const sheetSelect = document.getElementById('sheetSelect');
+// const processBtn = document.getElementById('processBtn');
+// const dataTableBody = document.getElementById('dataTableBody');
+// const fileNameDisplay = document.getElementById('fileNameDisplay');
+// const chartsContainer = document.getElementById('chartsContainer');
+// const noChartsMessage = document.getElementById('noChartsMessage');
+// const exportPdfBtn = document.getElementById('exportPdfBtn');
+// const exportExcelBtn = document.getElementById('exportExcelBtn');
+// const exportChartsAsImagesBtn = document.getElementById('exportChartsAsImagesBtn');
+// const exportLogFileBtn = document.getElementById('exportLogFileBtn');
+// const searchInput = document.getElementById('searchInput');
+// const filterCustomerBtn = document.getElementById('filterCustomerBtn');
+// const clearFilterBtn = document.getElementById('clearFilterBtn');
+// const minConsumptionInput = document.getElementById('minConsumption');
+// const maxConsumptionInput = document.getElementById('maxConsumption');
+// const filterConsumptionBtn = document.getElementById('filterConsumptionBtn');
+// const clearConsumptionFilterBtn = document.getElementById('clearConsumptionFilterBtn');
+// const timePeriodSelect = document.getElementById('timePeriodSelect');
+// const calculateTimePeriodBtn = document.getElementById('calculateTimePeriodBtn');
+// const timePeriodResultDiv = document.getElementById('timePeriodResult');
+// const renderAllChartsBtn = document.getElementById('renderAllChartsBtn');
+// const dataTable = document.getElementById('dataTable');
 
 // ====================================================================================================
 // توابع کمکی
@@ -882,8 +933,12 @@ excelFile.addEventListener('change', (event) => {
 });
 
 // پردازش فایل انتخاب شده
-processBtn.addEventListener('click', () => {
-    if (!workbook) {
+// پیدا کردن دکمه پردازش
+// const processBtn = document.getElementById('processDataBtn');
+if (processBtn) {
+    processBtn.addEventListener('click', function() {
+        // کدهای پردازش فایل اکسل
+            if (!workbook) {
         showAlert('اخطار', 'لطفاً ابتدا یک فایل اکسل را انتخاب کنید.', 'warning');
         log('warn', 'تلاش برای پردازش بدون انتخاب فایل.');
         return;
@@ -933,8 +988,14 @@ processBtn.addEventListener('click', () => {
 
     showAlert('موفق', 'فایل اکسل با موفقیت پردازش شد و نمودارها رسم شدند.', 'success');
     log('info', 'پردازش موفقیت‌آمیز فایل اکسل و رسم نمودارها.');
-});
-
+    });
+} else {
+    console.error('دکمه پردازش یافت نشد!');
+    // نمایش پیام به کاربر
+    if (typeof Swal !== 'undefined') {
+        Swal.fire('خطا', 'دکمه پردازش در صفحه یافت نشد!', 'error');
+    }
+}
 // شنونده برای دکمه فیلتر نام مشترک
 if (filterCustomerBtn) {
     filterCustomerBtn.addEventListener('click', filterDataByCustomerName);
