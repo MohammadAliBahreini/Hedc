@@ -172,67 +172,39 @@
     <script src="node_modules/jspdf/dist/jspdf.umd.min.js"></script>
     <script src="node_modules/html2canvas/dist/html2canvas.min.js"></script> -->
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-    try {
-        // بررسی وجود کتابخانه‌های ضروری
-        if (typeof Chart === 'undefined' || typeof chartjs-plugin-annotation === 'undefined') {
-            console.error("کتابخانه‌های نمودار بارگذاری نشده‌اند");
-            if (typeof Swal !== 'undefined') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'خطای بارگذاری',
-                    text: 'کتابخانه‌های ضروری بارگذاری نشده‌اند'
-                });
-            }
-            return;
-        }
-        
-        // ثبت پلاگین‌ها
-        Chart.register(ChartJSPluginAnnotation);
-        console.log("پلاگین‌ها با موفقیت ثبت شدند");
-        
-    } catch (e) {
-        console.error("خطا در ثبت پلاگین‌ها:", e);
-        if (typeof Swal !== 'undefined') {
-            Swal.fire({
-                icon: 'error',
-                title: 'خطای سیستم',
-                text: 'مشکلی در راه‌اندازی کتابخانه‌ها وجود دارد'
-            });
-        }
-    }
-});
-        // try {
-        //     if (typeof Chart !== 'undefined' && typeof ChartjsPluginAnnotation !== 'undefined') {
-        //         Chart.register(ChartjsPluginAnnotation);
-        //         console.log("پلاگین ChartjsPluginAnnotation با موفقیت (از اسکریپت داخلی) ثبت شد.");
-        //     } else {
-        //         console.error("خطای حیاتی: Chart یا ChartjsPluginAnnotation بلافاصله پس از بارگذاری در main.html تعریف نشده‌اند.");
-        //         // Optionally, show a user-friendly error message or disable functionalities
-        //         Swal.fire({
-        //             icon: 'error',
-        //             title: 'خطای بارگذاری',
-        //             text: 'برخی از قابلیت‌های برنامه به دلیل مشکل در بارگذاری کتابخانه‌ها ممکن است کار نکنند. لطفاً با پشتیبانی تماس بگیرید.'
-        //         });
-        //     }
-        // } catch (e) {
-        //     console.error("خطا هنگام Chart.register (اسکریپت داخلی):", e);
-        //     Swal.fire({
-        //         icon: 'error',
-        //         title: 'خطای ثبت پلاگین',
-        //         text: 'مشکلی در ثبت پلاگین‌های نمودار وجود دارد. لطفاً برنامه را مجدداً راه‌اندازی کنید.'
-        //     });
-        // }
-    </script>
-    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script> -->
+    //----------------------------
+        <!-- کتابخانه‌های اصلی -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.all.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://unpkg.com/jspdf-autotable@3.5.23/dist/jspdf.plugin.autotable.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    
+    <!-- کتابخانه‌های کمکی -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.5.28/dist/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+    
+    <!-- اسکریپت اختصاصی -->
     <script src="js/Charts10.js"></script>
+
+    <script>
+        // بررسی وجود کتابخانه‌های ضروری
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof Chart === 'undefined' || typeof Swal === 'undefined') {
+                console.error("کتابخانه‌های ضروری بارگذاری نشده‌اند");
+                alert("خطا در بارگذاری کتابخانه‌های ضروری. لطفاً صفحه را مجدداً بارگذاری کنید.");
+                return;
+            }
+            
+            try {
+                // ثبت پلاگین‌های Chart.js
+                Chart.register(window['chartjs-plugin-annotation']);
+                console.log("کتابخانه‌ها با موفقیت بارگذاری شدند");
+            } catch (e) {
+                console.error("خطا در ثبت پلاگین‌ها:", e);
+            }
+        });
+    </script>
 </body>
 </html>
