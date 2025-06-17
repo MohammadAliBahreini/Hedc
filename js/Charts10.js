@@ -915,7 +915,7 @@ excelFile.addEventListener('change', (event) => {
             if (workbook.SheetNames.length > 0) {
                 sheetSelect.value = workbook.SheetNames[0];
             }
-            processBtn.disabled = false; // فعال کردن دکمه پردازش
+            elements.processBtn.disabled = false; // فعال کردن دکمه پردازش
             log('info', 'فایل اکسل بارگذاری شد. شیت‌ها پر شدند.');
         };
         reader.onerror = (e) => {
@@ -927,7 +927,7 @@ excelFile.addEventListener('change', (event) => {
         fileNameDisplay.textContent = 'فایل انتخاب نشده است.';
         sheetSelect.innerHTML = '<option value="">- Sheet1 -</option>';
         sheetSelect.disabled = true;
-        processBtn.disabled = true;
+        elements.processBtn.disabled = true;
         log('info', 'انتخاب فایل لغو شد.');
     }
 });
@@ -935,8 +935,8 @@ excelFile.addEventListener('change', (event) => {
 // پردازش فایل انتخاب شده
 // پیدا کردن دکمه پردازش
 // const processBtn = document.getElementById('processDataBtn');
-if (processBtn) {
-    processBtn.addEventListener('click', function() {
+if (elements.processBtn) {
+    elements.processBtn.addEventListener('click', function() {
         // کدهای پردازش فایل اکسل
             if (!workbook) {
         showAlert('اخطار', 'لطفاً ابتدا یک فایل اکسل را انتخاب کنید.', 'warning');
