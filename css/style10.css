@@ -1,0 +1,734 @@
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap');
+
+body {
+    font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    direction: rtl;
+    background: url('Background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.header {
+    width: 100%;
+    background-color: transparent;
+    padding: 0;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+}
+
+.header-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+}
+
+.container {
+    max-width: 1300px;
+    width: 98%;
+    padding: 10px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    backdrop-filter: blur(5px);
+}
+
+h1 {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+    font-size: 1.5rem;
+    background: linear-gradient(90deg, #4b6cb7, #182848);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.top-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    margin-bottom: 10px;
+    align-self: flex-start;
+    flex-grow: 1;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.card h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 1.1em;
+    text-align: center;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+/* ***  چیدمان کادرها و دکمه‌ها *** */
+
+/* تنظیمات کلی برای چهار کادر در top-controls */
+.file-upload-card,
+.time-calc-card,
+.filter-calc-card,
+.export-buttons-card {
+    box-sizing: border-box;
+}
+
+/* 1. کادر "ورودی و پردازش" - بهبود یافته */
+.file-upload-card {
+    flex-basis: calc(25% - 10px);
+    max-width: calc(25% - 10px);
+    min-width: 250px;
+}
+
+.file-input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: stretch;
+    margin-bottom: 8px;
+}
+
+.file-input-section input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 0.85em;
+    background-color: #17a2b8;
+    color: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.custom-file-upload:hover {
+    background-color: #138496;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.custom-file-upload i {
+    margin-left: 5px;
+}
+
+.file-name-display {
+    text-align: center;
+    font-size: 0.8em;
+    color: #555;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 3px;
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 4px;
+}
+
+#sheetSelect {
+    width: 100%;
+    padding: 5px 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.85em;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+    transition: all 0.3s ease;
+}
+
+#sheetSelect:focus {
+    border-color: #17a2b8;
+    box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
+}
+
+/* دکمه‌های پردازش و شروع مجدد در یک خط */
+.action-buttons {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+}
+
+.action-buttons button {
+    flex-grow: 1;
+    padding: 8px;
+    font-size: 0.85em;
+    text-align: center;
+    min-width: auto;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.action-buttons button i {
+    margin-left: 5px;
+}
+
+.action-buttons button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* 2. کادر "تنظیمات پیک بار" - بهبود یافته و فشرده */
+.time-calc-card {
+    flex-basis: calc(25% - 10px);
+    max-width: calc(25% - 10px);
+    min-width: 240px;
+    padding: 10px;
+}
+
+.time-calc-row {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-bottom: 6px;
+}
+
+.time-calc-row label {
+    flex-shrink: 0;
+    font-size: 0.75em;
+    white-space: nowrap;
+    margin: 0;
+}
+
+.time-calc-row input[type="time"] {
+    width: 70px;
+    padding: 4px;
+    font-size: 0.8em;
+    flex-shrink: 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.time-calc-row select {
+    width: 70px;
+    padding: 4px;
+    font-size: 0.8em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.load-settings-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* 3. کادر "تنظیمات فیلتر و محاسبات" */
+.filter-calc-card {
+    flex-basis: calc(25% - 10px);
+    max-width: calc(25% - 10px);
+    min-width: 220px;
+}
+
+.filter-options-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+}
+
+.filter-group input[type="checkbox"] {
+    order: 1;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.filter-group label {
+    order: 2;
+    flex-shrink: 0;
+    font-size: 0.75em;
+    color: #333;
+    white-space: nowrap;
+    margin-right: 4px;
+}
+
+.filter-group input[type="number"] {
+    order: 3;
+    width: 40px;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.8em;
+    text-align: center;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+/* 4. کادر "خروجی‌ها" با دکمه‌های ایکون دار */
+.export-buttons-card {
+    flex-basis: 150px;
+    max-width: 170px;
+    min-width: 120px;
+    flex-grow: 0;
+    padding: 8px;
+}
+
+.export-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: stretch;
+}
+
+.export-buttons button {
+    width: 100%;
+    padding: 5px;
+    font-size: 0.8em;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+}
+
+.export-buttons button i {
+    margin-left: 4px;
+}
+
+.export-buttons button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* استایل‌های جدول و نمودارها */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 10px;
+    direction: rtl;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+#resultsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    font-size: 0.75em;
+    white-space: nowrap;
+}
+
+#resultsTable th, #resultsTable td {
+    border: 1px solid rgba(204, 204, 204, 0.7);
+    padding: 5px 8px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#resultsTable th {
+    background-color: rgba(70, 130, 180, 0.8);
+    color: white;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+}
+
+#resultsTable tbody tr:nth-child(even) {
+    background-color: rgba(249, 249, 249, 0.6);
+}
+
+#resultsTable tbody tr:hover {
+    background-color: rgba(230, 230, 230, 0.8);
+}
+
+#resultsTable .btn {
+    padding: 4px 6px;
+    font-size: 0.75em;
+    margin: 0 2px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+#resultsTable .btn:hover {
+    transform: scale(1.1);
+}
+
+/* نمودارها */
+#chartsContainer {
+    padding: 10px;
+    overflow-y: auto;
+    max-height: 800px;
+    margin-bottom: 10px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 15px;
+    padding: 10px;
+    justify-content: center;
+    align-items: start;
+}
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    transition: all 0.3s ease;
+}
+
+.chart-container:hover {
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
+
+.chart-container h3 {
+    font-size: 0.95em;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.chart-container p {
+    font-size: 0.75em;
+    margin-bottom: 3px;
+}
+
+.chart-container canvas {
+    max-width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.chart-download-btn {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    background-color: #00bcd4;
+    color: white;
+    border: none;
+    padding: 4px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.7em;
+    z-index: 20;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.chart-download-btn i {
+    margin-right: 3px;
+}
+
+.chart-download-btn:hover {
+    background-color: #0097a7;
+    transform: scale(1.05);
+}
+
+/* پیشرفت بارگذاری */
+#progress-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 15px;
+    margin-bottom: 5px;
+    display: none;
+}
+
+#progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #4CAF50, #2E8B57);
+    text-align: center;
+    color: white;
+    font-size: 0.7em;
+    line-height: 15px;
+    border-radius: 5px;
+    transition: width 0.3s ease-in-out;
+}
+
+#progress-label {
+    text-align: center;
+    font-size: 0.8em;
+    color: #555;
+    margin-top: 3px;
+}
+
+/* دکمه‌های عمومی */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: all 0.15s ease-in-out;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.btn:hover {
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.btn:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.btn i {
+    margin-left: 5px;
+}
+
+/* رنگ‌های دکمه‌ها */
+.btn-primary {
+    color: #fff;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background: linear-gradient(135deg, #0069d9, #004085);
+    border-color: #0062cc;
+}
+
+.btn-info {
+    color: #fff;
+    background: linear-gradient(135deg, #17a2b8, #117a8b);
+    border-color: #17a2b8;
+}
+
+.btn-info:hover {
+    color: #fff;
+    background: linear-gradient(135deg, #138496, #0f6674);
+    border-color: #117a8b;
+}
+
+.btn-danger {
+    color: #fff;
+    background: linear-gradient(135deg, #dc3545, #bd2130);
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    color: #fff;
+    background: linear-gradient(135deg, #c82333, #b21f2d);
+    border-color: #bd2130;
+}
+
+.btn-success {
+    color: #fff;
+    background: linear-gradient(135deg, #28a745, #1e7e34);
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    color: #fff;
+    background: linear-gradient(135deg, #218838, #1c7430);
+    border-color: #1e7e34;
+}
+
+.btn-warning {
+    color: #212529;
+    background: linear-gradient(135deg, #ffc107, #e0a800);
+    border-color: #ffc107;
+}
+
+.btn-warning:hover {
+    color: #212529;
+    background: linear-gradient(135deg, #e0a800, #d39e00);
+    border-color: #e0a800;
+}
+
+.btn-secondary {
+    color: #fff;
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+    border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    color: #fff;
+    background: linear-gradient(135deg, #5a6268, #545b62);
+    border-color: #545b62;
+}
+
+/* تغییرات برای دستگاه‌های کوچک */
+@media (max-width: 1200px) {
+    .file-upload-card,
+    .time-calc-card,
+    .filter-calc-card,
+    .export-buttons-card {
+        flex-basis: calc(50% - 10px);
+        max-width: calc(50% - 10px);
+    }
+    .chart-container {
+        width: calc(50% - 10px);
+    }
+}
+
+@media (max-width: 768px) {
+    .top-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .card {
+        min-width: unset;
+        width: 100%;
+        max-width: unset;
+        flex-basis: auto;
+        flex-grow: 1;
+    }
+    .file-input-section,
+    .action-buttons,
+    .filter-group-item,
+    .time-calc-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+    }
+    .file-input-section .custom-file-upload,
+    .file-name-display,
+    #sheetSelect,
+    .action-buttons button,
+    .filter-group-item label,
+    .filter-group-item input[type="number"],
+    .time-calc-row label,
+    .hour-input, .minute-input,
+    .time-calc-row select {
+        width: 100%;
+        max-width: unset;
+        text-align: center;
+    }
+    .filter-group-item input[type="checkbox"] {
+        align-self: flex-start;
+    }
+    .filter-group-item {
+        align-items: flex-start;
+    }
+    .chart-container {
+        width: calc(100% - 10px);
+        height: 220px;
+    }
+    
+    .action-buttons {
+        flex-direction: row;
+    }
+    
+    .action-buttons button {
+        padding: 6px;
+    }
+    
+    .export-buttons button {
+        padding: 6px;
+    }
+}
+
+/* افکت‌های hover برای عناصر تعاملی */
+input, select, textarea {
+    transition: all 0.3s ease;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px 8px;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #17a2b8;
+    box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
+    outline: none;
+}
+
+/* tooltip برای عناصر */
+[tooltip] {
+    position: relative;
+}
+
+[tooltip]:hover::after {
+    content: attr(tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    white-space: nowrap;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0.9;
+    margin-bottom: 5px;
+}
+
+/* انیمیشن‌ها */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
