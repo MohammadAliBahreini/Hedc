@@ -33,7 +33,7 @@ const REQUIRED_COLUMNS = [
     '20:00 to 20:15 [KW]', '20:15 to 20:30 [KW]', '20:30 to 20:45 [KW]', '20:45 to 21:00 [KW]',
     '21:00 to 21:15 [KW]', '21:15 to 21:30 [KW]', '21:30 to 21:45 [KW]', '21:45 to 22:00 [KW]',
     '22:00 to 22:15 [KW]', '22:15 to 22:30 [KW]', '22:30 to 22:45 [KW]', '22:45 to 23:00 [KW]',
-    '23:00 to 23:15 [KW]', '23:15 to 23:30 [KW]', '23:30 to 23:45 [KW]', '23:45 to 24:00 [KW]'
+    '23:00 to 23:15 [KW]', '23:15 to 23:30 [KW]', '23:30 to 23:45 [KW]', '23:45 to 00:00 [KW]'
     // 'Total Consumption [KWh]', 'Average consumption [KW]', 'Max consumption [KW]', 'Min consumption [KW]',
     // 'Consumption per contracted demand (%)', 'Consumption per average consumption (%)', 'Consumption per max consumption (%)',
     // 'Load Factor (LF) [%]', 'Diversity Factor (DF) [%]', 'Coincidence Factor (CF) [%]',
