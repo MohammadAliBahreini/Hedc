@@ -34,10 +34,6 @@ const REQUIRED_COLUMNS = [
     '21:00 to 21:15 [KW]', '21:15 to 21:30 [KW]', '21:30 to 21:45 [KW]', '21:45 to 22:00 [KW]',
     '22:00 to 22:15 [KW]', '22:15 to 22:30 [KW]', '22:30 to 22:45 [KW]', '22:45 to 23:00 [KW]',
     '23:00 to 23:15 [KW]', '23:15 to 23:30 [KW]', '23:30 to 23:45 [KW]', '23:45 to 00:00 [KW]'
-    // 'Total Consumption [KWh]', 'Average consumption [KW]', 'Max consumption [KW]', 'Min consumption [KW]',
-    // 'Consumption per contracted demand (%)', 'Consumption per average consumption (%)', 'Consumption per max consumption (%)',
-    // 'Load Factor (LF) [%]', 'Diversity Factor (DF) [%]', 'Coincidence Factor (CF) [%]',
-    // 'Demand Factor (DMF) [%]', 'Peak Hour'
 ];
 
 // ستون‌هایی که باید در جدول نمایش داده شوند (مصرف‌های ۱۵ دقیقه‌ای حذف شدند)
@@ -87,9 +83,9 @@ function validateElements() {
             allElementsExist = false;
             
             // نمایش پیام خطا فقط در حالت توسعه
-            if (process.env.NODE_ENV === 'development') {
-                alert(`عنصر ${name} در صفحه یافت نشد!`);
-            }
+            // if (process.env.NODE_ENV === 'development') {
+                // alert(`عنصر ${name} در صفحه یافت نشد!`);
+            // }
         }
     }
     return allElementsExist;
@@ -102,35 +98,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // در اینجا می‌توانید تصمیم بگیرید که چگونه با خطا برخورد کنید
     }
 });
-// شناسه عناصر HTML
-// const excelFile = document.getElementById('excelFile');
-// const sheetSelect = document.getElementById('sheetSelect');
-// const processBtn = document.getElementById('processBtn');
-// const dataTableBody = document.getElementById('dataTableBody');
-// const fileNameDisplay = document.getElementById('fileNameDisplay');
-// const chartsContainer = document.getElementById('chartsContainer');
-// const noChartsMessage = document.getElementById('noChartsMessage');
-// const exportPdfBtn = document.getElementById('exportPdfBtn');
-// const exportExcelBtn = document.getElementById('exportExcelBtn');
-// const exportChartsAsImagesBtn = document.getElementById('exportChartsAsImagesBtn');
-// const exportLogFileBtn = document.getElementById('exportLogFileBtn');
-// const searchInput = document.getElementById('searchInput');
-// const filterCustomerBtn = document.getElementById('filterCustomerBtn');
-// const clearFilterBtn = document.getElementById('clearFilterBtn');
-// const minConsumptionInput = document.getElementById('minConsumption');
-// const maxConsumptionInput = document.getElementById('maxConsumption');
-// const filterConsumptionBtn = document.getElementById('filterConsumptionBtn');
-// const clearConsumptionFilterBtn = document.getElementById('clearConsumptionFilterBtn');
-// const timePeriodSelect = document.getElementById('timePeriodSelect');
-// const calculateTimePeriodBtn = document.getElementById('calculateTimePeriodBtn');
-// const timePeriodResultDiv = document.getElementById('timePeriodResult');
-// const renderAllChartsBtn = document.getElementById('renderAllChartsBtn');
-// const dataTable = document.getElementById('dataTable');
-
-// ====================================================================================================
-// توابع کمکی
-// ====================================================================================================
-
 /**
  * تابع لاگ برای ثبت رویدادها
  * @param {string} level - سطح لاگ (e.g., 'info', 'warn', 'error')
@@ -178,7 +145,137 @@ function validateHeaders(headers) {
  * @param {Array<Object>} data - داده‌های خوانده شده از اکسل
  * @returns {Array<Object>} - داده‌های پردازش شده
  */
+// اصلاح تابع processExcelData برای محاسبه مقادیر
 function processExcelData(data) {
+    const processedData = [];
+    data.forEach((row, index) => {
+        // ... کدهای قبلی
+        
+        // محاسبه بار صبح و عصر
+        const morningPeakStart = document.getElementById('morningPeakStart').value;
+        const morningPeakEnd = document.getElementById('morningPeakEnd').value;
+        const eveningPeakStart = document.getElementById('eveningPeakStart').value;
+        const eveningPeakEnd = document.getElementById('eveningPeakEnd').value;
+        
+        // تبدیل زمان به دقیقه
+        const toMinutes = (timeStr) => {
+            const [h, m] = timeStr.split(':').map(Number);
+            return h * 60 + m;
+        };
+        
+        // محاسبه بار صبح
+        const morningLoads = [];
+        // محاسبه بار عصر
+        const eveningLoads = [];
+        
+        for (let i = 0; i < 24; i++) {
+            for (let j = 0; j < 4; j++) {
+                const hour = String(i).padStart(2, '0');
+                const minute = String(j * 15).padStart(2, '0');
+                const nextMinute = String((j + 1) * 15).padStart(2, '0');
+                const colName = `${hour}:${minute} to ${hour}:${nextMinute} [KW]`;
+                const currentTime = i * 60 + j * 15;
+                
+                if (currentTime >= toMinutes(morningPeakStart) && currentTime <= toMinutes(morningPeakEnd)) {
+                    morningLoads.push(parseFloat(row[colName]) || 0);
+                }
+                
+                if (currentTime >= toMinutes(eveningPeakStart) && currentTime <= toMinutes(eveningPeakEnd)) {
+                    eveningLoads.push(parseFloat(row[colName]) || 0);
+                }
+            }
+        }
+        
+        // محاسبه میانگین/حداکثر/حداقل بر اساس انتخاب کاربر
+        const morningCalcType = document.getElementById('morningCalcType').value;
+        const eveningCalcType = document.getElementById('eveningCalcType').value;
+        
+        const calculateLoad = (loads, calcType) => {
+            if (loads.length === 0) return 0;
+            switch (calcType) {
+                case 'avg': return loads.reduce((a, b) => a + b, 0) / loads.length;
+                case 'max': return Math.max(...loads);
+                case 'min': return Math.min(...loads);
+                default: return loads.reduce((a, b) => a + b, 0) / loads.length;
+            }
+        };
+        
+        const morningLoad = calculateLoad(morningLoads, morningCalcType);
+        const eveningLoad = calculateLoad(eveningLoads, eveningCalcType);
+        const reductionAmount = morningLoad - eveningLoad;
+        const reductionPercent = (morningLoad > 0) ? (reductionAmount / morningLoad) * 100 : 0;
+        
+        const processedRow = {
+            // ... سایر فیلدها
+            'Morning Load (KW)': morningLoad.toFixed(2),
+            'Evening Load (KW)': eveningLoad.toFixed(2),
+            'Reduction Amount (KW)': reductionAmount.toFixed(2),
+            'Reduction Percentage (%)': reductionPercent.toFixed(2),
+            // ... سایر فیلدها
+        };
+        
+        processedData.push(processedRow);
+    });
+    return processedData;
+}
+function drawCharts(dataToChart) {
+    // پاک کردن نمودارهای قبلی
+    currentCharts.forEach(chart => chart.destroy());
+    currentCharts = [];
+    
+    const chartsGrid = document.querySelector('.charts-grid');
+    if (chartsGrid) {
+        chartsGrid.innerHTML = '';
+    } else {
+        console.error('عنصر charts-grid یافت نشد!');
+        return;
+    }
+
+    if (dataToChart.length === 0) {
+        if (noChartsMessage) {
+            noChartsMessage.style.display = 'block';
+        }
+        log('warn', 'داده‌ای برای رسم نمودار وجود ندارد.');
+        return;
+    }
+    
+    if (noChartsMessage) {
+        noChartsMessage.style.display = 'none';
+    }
+
+    // بقیه کد تابع بدون تغییر
+    // ...
+}
+function drawCharts1(dataToChart) {
+    // پاک کردن نمودارهای قبلی
+    currentCharts.forEach(chart => chart.destroy());
+    currentCharts = [];
+    
+    const chartsGrid = document.querySelector('.charts-grid');
+    if (chartsGrid) {
+        chartsGrid.innerHTML = '';
+    } else {
+        console.error('عنصر charts-grid یافت نشد!');
+        return;
+    }
+
+    if (dataToChart.length === 0) {
+        if (noChartsMessage) {
+            noChartsMessage.style.display = 'block';
+        }
+        log('warn', 'داده‌ای برای رسم نمودار وجود ندارد.');
+        return;
+    }
+    
+    if (noChartsMessage) {
+        noChartsMessage.style.display = 'none';
+    }
+
+    // بقیه کد تابع بدون تغییر
+    // ...
+}
+
+function processExcelData1(data) {
     const processedData = [];
     data.forEach((row, index) => {
         // اطمینان از وجود ستون‌های لازم و تبدیل به نوع صحیح
@@ -255,19 +352,6 @@ function processExcelData(data) {
             'Customer id': customerId,
             'Contracted demand': contractedDemand,
             'Address': address,
-            // ...consumptionData, // اضافه کردن تمام داده‌های مصرف 15 دقیقه‌ای
-            // 'Total Consumption [KWh]': totalConsumptionKWh,
-            // 'Average consumption [KW]': averageConsumptionKW,
-            // 'Max consumption [KW]': maxConsumptionKW,
-            // 'Min consumption [KW]': minConsumptionKW,
-            // 'Consumption per contracted demand (%)': consumptionPerContractedDemand,
-            // 'Consumption per average consumption (%)': consumptionPerAverageConsumption,
-            // 'Consumption per max consumption (%)': consumptionPerMaxConsumption,
-            // 'Load Factor (LF) [%]': loadFactor,
-            // 'Diversity Factor (DF) [%]': diversityFactor,
-            // 'Coincidence Factor (CF) [%]': coincidenceFactor,
-            // 'Demand Factor (DMF) [%]': demandFactor,
-            // 'Peak Hour': peakHour
         };
         processedData.push(processedRow);
     });
@@ -784,18 +868,6 @@ async function exportToPdf() {
             case 'Customer id': return 'شناسه مشترک';
             case 'Contracted demand': return 'توان قراردادی';
             case 'Address': return 'آدرس';
-            // case 'Total Consumption [KWh]': return 'مصرف کل [KWh]';
-            // case 'Average consumption [KW]': return 'میانگین مصرف [KW]';
-            // case 'Max consumption [KW]': return 'حداکثر مصرف [KW]';
-            // case 'Min consumption [KW]': return 'حداقل مصرف [KW]';
-            // case 'Consumption per contracted demand (%)': return 'مصرف نسبت به ق.د (%)';
-            // case 'Consumption per average consumption (%)': return 'مصرف نسبت به م.م (%)';
-            // case 'Consumption per max consumption (%)': return 'مصرف نسبت به ح.م (%)';
-            // case 'Load Factor (LF) [%]': return 'ضریب بار (LF) [%]';
-            // case 'Diversity Factor (DF) [%]': return 'ضریب تنوع (DF) [%]';
-            // case 'Coincidence Factor (CF) [%]': return 'ضریب همزمانی (CF) [%]';
-            // case 'Demand Factor (DMF) [%]': return 'ضریب تقاضا (DMF) [%]';
-            // case 'Peak Hour': return 'ساعت اوج';
             default: return col;
         }
     });
@@ -1110,7 +1182,7 @@ async function processData() {
     const sheetSelect = document.getElementById('sheetSelect');
     const resultsTableBody = document.querySelector('#resultsTable tbody');
     const chartsContainer = document.getElementById('chartsContainer');
-    const noChartsMessage = document.getElementById('noChartsMessage');
+    const noChartsMessage = document.getElementById('noChartsMessage')  || { style: { display: '' } };
     const morningStartHour = document.getElementById('morningStartHour');
     const morningStartMinute = document.getElementById('morningStartMinute');
     const morningEndHour = document.getElementById('morningEndHour');
