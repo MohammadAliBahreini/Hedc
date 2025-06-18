@@ -69,7 +69,7 @@ const elements = {
     clearFilterBtn: document.getElementById('clearFilterBtn'),
     minConsumptionInput: document.getElementById('txtEvening'),
     maxConsumptionInput: document.getElementById('txtReduction'),
-    filterConsumptionBtn: document.getElementById('filterConsumptionBtn'),
+    // filterConsumptionBtn: document.getElementById('filterConsumptionBtn'),
     // clearConsumptionFilterBtn: document.getElementById('clearConsumptionFilterBtn'),
     timePeriodSelect: document.getElementById('timePeriodSelect'),
     calculateTimePeriodBtn: document.getElementById('calculateTimePeriodBtn'),
@@ -982,7 +982,7 @@ if (elements.processBtn) {
     clearFilterBtn.disabled = false;
     minConsumptionInput.disabled = false;
     maxConsumptionInput.disabled = false;
-    filterConsumptionBtn.disabled = false;
+    // filterConsumptionBtn.disabled = false;
     clearConsumptionFilterBtn.disabled = false;
     timePeriodSelect.disabled = false;
     calculateTimePeriodBtn.disabled = false;
@@ -1009,9 +1009,9 @@ if (clearFilterBtn) {
 }
 
 // شنونده برای دکمه فیلتر مصرف
-if (filterConsumptionBtn) {
-    filterConsumptionBtn.addEventListener('click', filterDataByConsumption);
-}
+// if (filterConsumptionBtn) {
+    // filterConsumptionBtn.addEventListener('click', filterDataByConsumption);
+// }
 
 // شنونده برای دکمه پاک کردن فیلتر مصرف
 if (clearConsumptionFilterBtn) {
