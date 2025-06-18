@@ -33,20 +33,20 @@ const REQUIRED_COLUMNS = [
     '20:00 to 20:15 [KW]', '20:15 to 20:30 [KW]', '20:30 to 20:45 [KW]', '20:45 to 21:00 [KW]',
     '21:00 to 21:15 [KW]', '21:15 to 21:30 [KW]', '21:30 to 21:45 [KW]', '21:45 to 22:00 [KW]',
     '22:00 to 22:15 [KW]', '22:15 to 22:30 [KW]', '22:30 to 22:45 [KW]', '22:45 to 23:00 [KW]',
-    '23:00 to 23:15 [KW]', '23:15 to 23:30 [KW]', '23:30 to 23:45 [KW]', '23:45 to 24:00 [KW]',
-    'Total Consumption [KWh]', 'Average consumption [KW]', 'Max consumption [KW]', 'Min consumption [KW]',
-    'Consumption per contracted demand (%)', 'Consumption per average consumption (%)', 'Consumption per max consumption (%)',
-    'Load Factor (LF) [%]', 'Diversity Factor (DF) [%]', 'Coincidence Factor (CF) [%]',
-    'Demand Factor (DMF) [%]', 'Peak Hour'
+    '23:00 to 23:15 [KW]', '23:15 to 23:30 [KW]', '23:30 to 23:45 [KW]', '23:45 to 24:00 [KW]'
+    // 'Total Consumption [KWh]', 'Average consumption [KW]', 'Max consumption [KW]', 'Min consumption [KW]',
+    // 'Consumption per contracted demand (%)', 'Consumption per average consumption (%)', 'Consumption per max consumption (%)',
+    // 'Load Factor (LF) [%]', 'Diversity Factor (DF) [%]', 'Coincidence Factor (CF) [%]',
+    // 'Demand Factor (DMF) [%]', 'Peak Hour'
 ];
 
 // ستون‌هایی که باید در جدول نمایش داده شوند (مصرف‌های ۱۵ دقیقه‌ای حذف شدند)
 const DISPLAY_COLUMNS = [
-    '#', 'Serial no.', 'Date', 'Customer name', 'Billing id', 'Customer id', 'Contracted demand', 'Address',
-    'Total Consumption [KWh]', 'Average consumption [KW]', 'Max consumption [KW]', 'Min consumption [KW]',
-    'Consumption per contracted demand (%)', 'Consumption per average consumption (%)', 'Consumption per max consumption (%)',
-    'Load Factor (LF) [%]', 'Diversity Factor (DF) [%]', 'Coincidence Factor (CF) [%]',
-    'Demand Factor (DMF) [%]', 'Peak Hour'
+    '#', 'Serial no.', 'Date', 'Customer name', 'Billing id', 'Customer id', 'Contracted demand', 'Address'
+    // 'Total Consumption [KWh]', 'Average consumption [KW]', 'Max consumption [KW]', 'Min consumption [KW]',
+    // 'Consumption per contracted demand (%)', 'Consumption per average consumption (%)', 'Consumption per max consumption (%)',
+    // 'Load Factor (LF) [%]', 'Diversity Factor (DF) [%]', 'Coincidence Factor (CF) [%]',
+    // 'Demand Factor (DMF) [%]', 'Peak Hour'
 ];
 
 // تعریف عناصر صفحه به صورت مرکزی
@@ -254,19 +254,19 @@ function processExcelData(data) {
             'Customer id': customerId,
             'Contracted demand': contractedDemand,
             'Address': address,
-            ...consumptionData, // اضافه کردن تمام داده‌های مصرف 15 دقیقه‌ای
-            'Total Consumption [KWh]': totalConsumptionKWh,
-            'Average consumption [KW]': averageConsumptionKW,
-            'Max consumption [KW]': maxConsumptionKW,
-            'Min consumption [KW]': minConsumptionKW,
-            'Consumption per contracted demand (%)': consumptionPerContractedDemand,
-            'Consumption per average consumption (%)': consumptionPerAverageConsumption,
-            'Consumption per max consumption (%)': consumptionPerMaxConsumption,
-            'Load Factor (LF) [%]': loadFactor,
-            'Diversity Factor (DF) [%]': diversityFactor,
-            'Coincidence Factor (CF) [%]': coincidenceFactor,
-            'Demand Factor (DMF) [%]': demandFactor,
-            'Peak Hour': peakHour
+            // ...consumptionData, // اضافه کردن تمام داده‌های مصرف 15 دقیقه‌ای
+            // 'Total Consumption [KWh]': totalConsumptionKWh,
+            // 'Average consumption [KW]': averageConsumptionKW,
+            // 'Max consumption [KW]': maxConsumptionKW,
+            // 'Min consumption [KW]': minConsumptionKW,
+            // 'Consumption per contracted demand (%)': consumptionPerContractedDemand,
+            // 'Consumption per average consumption (%)': consumptionPerAverageConsumption,
+            // 'Consumption per max consumption (%)': consumptionPerMaxConsumption,
+            // 'Load Factor (LF) [%]': loadFactor,
+            // 'Diversity Factor (DF) [%]': diversityFactor,
+            // 'Coincidence Factor (CF) [%]': coincidenceFactor,
+            // 'Demand Factor (DMF) [%]': demandFactor,
+            // 'Peak Hour': peakHour
         };
         processedData.push(processedRow);
     });
@@ -783,18 +783,18 @@ async function exportToPdf() {
             case 'Customer id': return 'شناسه مشترک';
             case 'Contracted demand': return 'توان قراردادی';
             case 'Address': return 'آدرس';
-            case 'Total Consumption [KWh]': return 'مصرف کل [KWh]';
-            case 'Average consumption [KW]': return 'میانگین مصرف [KW]';
-            case 'Max consumption [KW]': return 'حداکثر مصرف [KW]';
-            case 'Min consumption [KW]': return 'حداقل مصرف [KW]';
-            case 'Consumption per contracted demand (%)': return 'مصرف نسبت به ق.د (%)';
-            case 'Consumption per average consumption (%)': return 'مصرف نسبت به م.م (%)';
-            case 'Consumption per max consumption (%)': return 'مصرف نسبت به ح.م (%)';
-            case 'Load Factor (LF) [%]': return 'ضریب بار (LF) [%]';
-            case 'Diversity Factor (DF) [%]': return 'ضریب تنوع (DF) [%]';
-            case 'Coincidence Factor (CF) [%]': return 'ضریب همزمانی (CF) [%]';
-            case 'Demand Factor (DMF) [%]': return 'ضریب تقاضا (DMF) [%]';
-            case 'Peak Hour': return 'ساعت اوج';
+            // case 'Total Consumption [KWh]': return 'مصرف کل [KWh]';
+            // case 'Average consumption [KW]': return 'میانگین مصرف [KW]';
+            // case 'Max consumption [KW]': return 'حداکثر مصرف [KW]';
+            // case 'Min consumption [KW]': return 'حداقل مصرف [KW]';
+            // case 'Consumption per contracted demand (%)': return 'مصرف نسبت به ق.د (%)';
+            // case 'Consumption per average consumption (%)': return 'مصرف نسبت به م.م (%)';
+            // case 'Consumption per max consumption (%)': return 'مصرف نسبت به ح.م (%)';
+            // case 'Load Factor (LF) [%]': return 'ضریب بار (LF) [%]';
+            // case 'Diversity Factor (DF) [%]': return 'ضریب تنوع (DF) [%]';
+            // case 'Coincidence Factor (CF) [%]': return 'ضریب همزمانی (CF) [%]';
+            // case 'Demand Factor (DMF) [%]': return 'ضریب تقاضا (DMF) [%]';
+            // case 'Peak Hour': return 'ساعت اوج';
             default: return col;
         }
     });
