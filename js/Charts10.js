@@ -148,6 +148,75 @@ function validateHeaders(headers) {
 // اصلاح تابع processExcelData برای محاسبه مقادیر
 function processExcelData(data) {
     const processedData = [];
+    
+    // دریافت تنظیمات زمان از UI
+    const morningStart = document.getElementById('morningPeakStart').value;
+    const morningEnd = document.getElementById('morningPeakEnd').value;
+    const eveningStart = document.getElementById('eveningPeakStart').value;
+    const eveningEnd = document.getElementById('eveningPeakEnd').value;
+    
+    data.forEach((row, index) => {
+        // محاسبه بار صبح
+        const morningLoad = calculatePeakLoad(row, morningStart, morningEnd, 'morningCalcType');
+        // محاسبه بار عصر
+        const eveningLoad = calculatePeakLoad(row, eveningStart, eveningEnd, 'eveningCalcType');
+        
+        const reductionKW = morningLoad - eveningLoad;
+        const reductionPercent = morningLoad > 0 ? (reductionKW / morningLoad) * 100 : 0;
+        
+        const processedRow = {
+            // ... سایر فیلدها
+            'Morning Load (KW)': morningLoad.toFixed(2),
+            'Evening Load (KW)': eveningLoad.toFixed(2),
+            'Reduction Amount (KW)': reductionKW.toFixed(2),
+            'Reduction Percentage (%)': reductionPercent.toFixed(2),
+            // ... سایر فیلدها
+        };
+        
+        processedData.push(processedRow);
+    });
+    
+    return processedData;
+}
+
+function calculatePeakLoad(row, startTime, endTime, calcTypeId) {
+    const calcType = document.getElementById(calcTypeId).value;
+    const loads = [];
+    
+    // تبدیل زمان به دقیقه
+    const toMinutes = (timeStr) => {
+        const [h, m] = timeStr.split(':').map(Number);
+        return h * 60 + m;
+    };
+    
+    const startMin = toMinutes(startTime);
+    const endMin = toMinutes(endTime);
+    
+    for (let i = 0; i < 24; i++) {
+        for (let j = 0; j < 4; j++) {
+            const currentMin = i * 60 + j * 15;
+            if (currentMin >= startMin && currentMin <= endMin) {
+                const hour = String(i).padStart(2, '0');
+                const minute = String(j * 15).padStart(2, '0');
+                const nextMin = String((j + 1) * 15).padStart(2, '0');
+                const colName = `${hour}:${minute} to ${hour}:${nextMin} [KW]`;
+                const value = parseFloat(row[colName]) || 0;
+                loads.push(value);
+            }
+        }
+    }
+    
+    if (loads.length === 0) return 0;
+    
+    switch (calcType) {
+        case 'avg': return loads.reduce((a, b) => a + b, 0) / loads.length;
+        case 'max': return Math.max(...loads);
+        case 'min': return Math.min(...loads);
+        default: return loads.reduce((a, b) => a + b, 0) / loads.length;
+    }
+}
+function processExcelData2(data) {
+    const processedData = [];
     data.forEach((row, index) => {
         // ... کدهای قبلی
         
