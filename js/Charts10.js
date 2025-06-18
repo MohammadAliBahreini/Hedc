@@ -42,7 +42,8 @@ const REQUIRED_COLUMNS = [
 
 // ستون‌هایی که باید در جدول نمایش داده شوند (مصرف‌های ۱۵ دقیقه‌ای حذف شدند)
 const DISPLAY_COLUMNS = [
-    '#', 'Serial no.', 'Date', 'Customer name', 'Billing id', 'Customer id', 'Contracted demand', 'Address'
+    '#', 'Serial no.', 'Date', 'Customer name', 'Billing id', 'Customer id', 'Contracted demand', 'Address',
+    'Morning Load (KW)', 'Evening Load (KW)', 'Reduction Amount (KW)', 'Reduction Percentage (%)'
     // 'Total Consumption [KWh]', 'Average consumption [KW]', 'Max consumption [KW]', 'Min consumption [KW]',
     // 'Consumption per contracted demand (%)', 'Consumption per average consumption (%)', 'Consumption per max consumption (%)',
     // 'Load Factor (LF) [%]', 'Diversity Factor (DF) [%]', 'Coincidence Factor (CF) [%]',
@@ -163,6 +164,8 @@ function showAlert(title, text, icon) {
  */
 function validateHeaders(headers) {
     const missingColumns = REQUIRED_COLUMNS.filter(col => !headers.includes(col));
+    log('error', `ستون‌های REQUIRED_COLUMNS زیر : ${REQUIRED_COLUMNS.join(', ')}`);
+    log('error', `ستون‌های headers زیر : ${headers.join(', ')}`);
     if (missingColumns.length > 0) {
         log('error', `ستون‌های زیر در فایل اکسل یافت نشدند: ${missingColumns.join(', ')}`);
         showAlert('خطا در ساختار فایل', `ستون‌های زیر در فایل اکسل یافت نشدند:<br>${missingColumns.join(', ')}<br>لطفاً فایل صحیح را بارگذاری کنید.`, 'error');
@@ -960,6 +963,7 @@ if (elements.processBtn) {
     }
 
     const headers = XLSX.utils.sheet_to_json(ws, { header: 1 })[0];
+    log('error',  headers);
     if (!validateHeaders(headers)) {
         log('error', 'هدرهای فایل اکسل نامعتبر هستند. پردازش متوقف شد.');
         return;
