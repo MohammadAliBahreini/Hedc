@@ -164,8 +164,6 @@ function showAlert(title, text, icon) {
  */
 function validateHeaders(headers) {
     const missingColumns = REQUIRED_COLUMNS.filter(col => !headers.includes(col));
-    log('error', `ستون‌های REQUIRED_COLUMNS زیر : ${REQUIRED_COLUMNS.join(', ')}`);
-    log('error', `ستون‌های headers زیر : ${headers.join(', ')}`);
     if (missingColumns.length > 0) {
         log('error', `ستون‌های زیر در فایل اکسل یافت نشدند: ${missingColumns.join(', ')}`);
         showAlert('خطا در ساختار فایل', `ستون‌های زیر در فایل اکسل یافت نشدند:<br>${missingColumns.join(', ')}<br>لطفاً فایل صحیح را بارگذاری کنید.`, 'error');
@@ -1103,3 +1101,278 @@ if (renderAllChartsBtn) {
         }
     });
 }
+
+/**
+ * تابع اصلی پردازش داده‌ها از فایل اکسل
+ * این تابع پس از انتخاب شیت و کلیک دکمه "پردازش" فراخوانی می‌شود.
+ */
+async function processData() {
+    const sheetSelect = document.getElementById('sheetSelect');
+    const resultsTableBody = document.querySelector('#resultsTable tbody');
+    const chartsContainer = document.getElementById('chartsContainer');
+    const noChartsMessage = document.getElementById('noChartsMessage');
+    const morningStartHour = document.getElementById('morningStartHour');
+    const morningStartMinute = document.getElementById('morningStartMinute');
+    const morningEndHour = document.getElementById('morningEndHour');
+    const morningEndMinute = document.getElementById('morningEndMinute');
+    const eveningStartHour = document.getElementById('eveningStartHour');
+    const eveningStartMinute = document.getElementById('eveningStartMinute');
+    const eveningEndHour = document.getElementById('eveningEndHour');
+    const eveningEndMinute = document.getElementById('eveningEndMinute');
+    const morningCalcType = document.getElementById('morningCalcType');
+    const eveningCalcType = document.getElementById('eveningCalcType');
+    const chkEvening = document.getElementById('chkEvening');
+    const txtEvening = document.getElementById('txtEvening');
+    const chkReduction = document.getElementById('chkReduction');
+    const txtReduction = document.getElementById('txtReduction');
+    const exportExcelBtn = document.getElementById('exportExcelBtn');
+    const exportPdfBtn = document.getElementById('exportPdfBtn');
+    const exportChartsAsImagesBtn = document.getElementById('exportChartsAsImagesBtn');
+
+
+    if (!workbook) {
+        Swal.fire('خطا', 'لطفاً ابتدا یک فایل اکسل انتخاب کنید.', 'error');
+        return;
+    }
+
+    const selectedSheetName = sheetSelect.value || workbook.SheetNames[0];
+    if (!selectedSheetName) {
+        Swal.fire('خطا', 'شیتی برای پردازش یافت نشد.', 'error');
+        return;
+    }
+
+    showProgress(25, 'در حال پردازش داده‌ها...');
+
+    if (resultsTableBody) resultsTableBody.innerHTML = '';
+    destroyCharts();
+    if (noChartsMessage) noChartsMessage.style.display = 'none';
+
+    const worksheet = workbook.Sheets[selectedSheetName];
+    const jsonSheet = XLSX.utils.sheet_to_json(worksheet, { header: 1, raw: true });
+
+    const headers = jsonSheet[0];
+    console.log("سربرگ‌ها از اکسل:", headers);
+    const dataRows = jsonSheet.slice(1);
+    console.log("ردیف‌های داده (dataRows):", dataRows);
+
+    parsedData = []; // پاکسازی آرایه داده‌های پردازش‌شده برای شروع مجدد
+
+    const getMinutes = (h, m) => parseInt(h) * 60 + parseInt(m);
+    // ترتیب ساعت و دقیقه در ورودی های UI تصحیح شد
+    const morningStart = getMinutes(morningStartHour.value, morningStartMinute.value);
+    const morningEnd = getMinutes(morningEndHour.value, morningEndMinute.value);
+    const eveningStart = getMinutes(eveningStartHour.value, eveningStartMinute.value);
+    const eveningEnd = getMinutes(eveningEndHour.value, eveningEndMinute.value);
+
+
+    const bodyNumberColIndex = headers.indexOf('Serial no.');
+    const customerNameColIndex = headers.indexOf('Customer name');
+    const billIdColIndex = headers.indexOf('Billing id');
+    const addressColIndex = headers.indexOf('Address');
+    const subscriptionNumberColIndex = headers.indexOf('Customer id');
+    const demandColumnIndex = headers.indexOf('Contracted demand');
+
+    if (bodyNumberColIndex === -1 || customerNameColIndex === -1 || billIdColIndex === -1 ||
+        addressColIndex === -1 || subscriptionNumberColIndex === -1 || demandColumnIndex === -1) {
+        Swal.fire({
+            icon: 'error',
+            title: 'خطای ساختار فایل',
+            html: 'یکی از ستون‌های ضروری (مانند "Serial no.", "Customer name", "Billing id", "Address", "Customer id", "Contracted demand") در فایل اکسل یافت نشد. <br> لطفاً مطمئن شوید که سربرگ‌ها صحیح هستند.'
+        });
+        showProgress(0);
+        return;
+    }
+
+    const minEveningLoad = chkEvening && chkEvening.checked ? parseFloat(txtEvening.value) : -Infinity;
+    // Changed to maxReductionPercent and default to Infinity
+    const maxReductionPercent = chkReduction && chkReduction.checked ? parseFloat(txtReduction.value) : Infinity;
+
+    showProgress(50, 'در حال تحلیل بارهای مشترکین...');
+
+    for (let i = 0; i < dataRows.length; i++) {
+        const row = dataRows[i];
+        if (!row || row.length === 0 || row[bodyNumberColIndex] === undefined || row[bodyNumberColIndex] === null) {
+            console.warn(`ردیف ${i + 2} به دلیل خالی بودن یا نداشتن شماره بدنه، نادیده گرفته شد.`);
+            continue;
+        }
+
+        const customerInfo = {
+            // ID با bodyNumber ساخته شد تا پیدا کردن نمودار آسان‌تر باشد
+            id: `customer-${row[bodyNumberColIndex]}`,
+            rowNum: i + 2,
+            bodyNumber: row[bodyNumberColIndex],
+            customerName: row[customerNameColIndex],
+            billId: row[billIdColIndex],
+            address: row[addressColIndex],
+            subscriptionNumber: row[subscriptionNumberColIndex],
+            contractDemand: parseFloat(row[demandColumnIndex]) || 0
+        };
+
+        const loadProfile = [];
+        const timeLabels = []; // This will now store H1, H2, ... H24
+
+        // ایندکس آخرین ستون اطلاعات ثابت + 1 (فرض بر این است که ستون‌های بار بلافاصله بعد از اینها شروع می‌شوند)
+        const firstLoadColumnIndex = Math.max(
+            headers.indexOf('#'), // اضافه کردن # به لیست تا مطمئن شویم از اولین ستون‌های بار شروع می‌کنیم
+            bodyNumberColIndex, customerNameColIndex, billIdColIndex,
+            addressColIndex, subscriptionNumberColIndex, demandColumnIndex
+        ) + 1;
+
+
+        for (let j = firstLoadColumnIndex; j < headers.length; j++) {
+            const header = headers[j];
+            // اصلاح شده برای تطبیق با فرمت "HH:MM to HH:MM [KW]"
+            const timeMatch = String(header).match(/^(\d{2}:\d{2}) to \d{2}:\d{2} \[KW\]$/);
+
+            if (timeMatch && timeMatch[1]) {
+                const timeString = timeMatch[1];
+                const [h, m] = timeString.split(':').map(Number);
+                const timeInMinutes = h * 60 + m;
+                const loadValue = parseFloat(row[j]);
+                if (!isNaN(loadValue)) {
+                    loadProfile.push({ timeInMinutes, load: loadValue });
+                    // Convert HH:MM to H1, H2, ... H24
+                    timeLabels.push(`H${h + 1}`); // Assuming h is 0-23
+                } else {
+                    console.warn(`مقدار بار نامعتبر در ردیف ${i + 2}, ستون ${header}: ${row[j]}`);
+                }
+            } else {
+                // این خط برای دیباگینگ مفید است، نشان می‌دهد کدام سربرگ‌ها نادیده گرفته می‌شوند
+                // console.warn(`سربرگ "${header}" به عنوان ستون زمان بار معتبر شناسایی نشد.`);
+            }
+        }
+
+        if (loadProfile.length === 0) {
+            console.warn(`ردیف ${i + 2} (${customerInfo.bodyNumber}) به دلیل پروفایل بار خالی (عدم یافتن ستون‌های زمانی معتبر)، نادیده گرفته شد.`);
+            continue;
+        }
+
+        const morningLoads = loadProfile.filter(item =>
+            item.timeInMinutes >= morningStart && item.timeInMinutes <= morningEnd
+        ).map(item => item.load);
+
+        let morningLoad = 0;
+        if (morningLoads.length > 0) {
+            if (morningCalcType.value === 'avg') morningLoad = morningLoads.reduce((a, b) => a + b, 0) / morningLoads.length;
+            else if (morningCalcType.value === 'max') morningLoad = Math.max(...morningLoads);
+            else if (morningCalcType.value === 'min') morningLoad = Math.min(...morningLoads);
+        }
+
+        const eveningLoads = loadProfile.filter(item =>
+            item.timeInMinutes >= eveningStart && item.timeInMinutes <= eveningEnd
+        ).map(item => item.load);
+
+        let eveningLoad = 0;
+        if (eveningLoads.length > 0) {
+            if (eveningCalcType.value === 'avg') eveningLoad = eveningLoads.reduce((a, b) => a + b, 0) / eveningLoads.length;
+            else if (eveningCalcType.value === 'max') eveningLoad = Math.max(...eveningLoads);
+            else if (eveningCalcType.value === 'min') eveningLoad = Math.min(...eveningLoads);
+        }
+
+        const reductionKW = morningLoad - eveningLoad;
+        const reductionPercent = (morningLoad > 0) ? (reductionKW / morningLoad) * 100 : 0;
+
+        const customerResult = {
+            ...customerInfo,
+            morningLoad: morningLoad.toFixed(2),
+            eveningLoad: eveningLoad.toFixed(2),
+            reductionKW: reductionKW.toFixed(2),
+            reductionPercent: reductionPercent.toFixed(2),
+            loadProfileData: loadProfile.map(item => item.load),
+            timeLabels: timeLabels
+        };
+
+        const passesEveningFilter = !chkEvening || !chkEvening.checked || (parseFloat(customerResult.eveningLoad) >= minEveningLoad);
+        // Changed comparison for max reduction percentage
+        const passesReductionFilter = !chkReduction || !chkReduction.checked || (parseFloat(customerResult.reductionPercent) <= maxReductionPercent);
+
+        if (passesEveningFilter && passesReductionFilter) {
+            parsedData.push(customerResult);
+            console.log("مشتری با موفقیت اضافه شد:", customerResult);
+        } else {
+            console.log(`مشتری ${customerInfo.bodyNumber} به دلیل عدم تطابق با فیلترها اضافه نشد.`, {
+                passesEveningFilter,
+                passesReductionFilter,
+                eveningLoad: customerResult.eveningLoad,
+                minEveningLoad,
+                reductionPercent: customerResult.reductionPercent,
+                maxReductionPercent // Changed variable name
+            });
+        }
+    }
+
+    console.log("آرایه نهایی parsedData پس از پردازش:", parsedData);
+
+    showProgress(75, 'در حال نمایش نتایج...');
+    displayResults();
+    drawCharts();
+    showProgress(100, 'پردازش کامل شد.');
+
+    // اطمینان از فعال شدن دکمه‌های خروجی تنها در صورت وجود داده
+    if (parsedData.length > 0) {
+        if (exportExcelBtn) exportExcelBtn.disabled = false;
+        if (exportPdfBtn) exportPdfBtn.disabled = false;
+        if (exportChartsAsImagesBtn) exportChartsAsImagesBtn.disabled = false;
+    } else {
+        if (exportExcelBtn) exportExcelBtn.disabled = true;
+        if (exportPdfBtn) exportPdfBtn.disabled = true;
+        if (exportChartsAsImagesBtn) exportChartsAsImagesBtn.disabled = true;
+    }
+}
+
+/**
+ * تابع برای نمایش نتایج پردازش شده در جدول HTML
+ */
+function displayResults() {
+    const resultsTableBody = document.querySelector('#resultsTable tbody');
+
+    if (resultsTableBody) {
+        resultsTableBody.innerHTML = '';
+
+        if (parsedData.length === 0) {
+            const row = resultsTableBody.insertRow();
+            const cell = row.insertCell();
+            cell.colSpan = 13; // تعداد ستون‌ها
+            cell.textContent = 'هیچ داده‌ای بر اساس فیلترهای اعمال شده یافت نشد.';
+            cell.style.textAlign = 'center';
+            console.log("هیچ داده‌ای برای نمایش در جدول وجود ندارد.");
+            return;
+        }
+
+        parsedData.forEach((customer) => {
+            const row = resultsTableBody.insertRow();
+            row.dataset.customerId = customer.id; // برای دسترسی آسان به ID مشترک هنگام حذف
+
+            row.insertCell().textContent = customer.rowNum;
+            row.insertCell().textContent = customer.bodyNumber;
+            row.insertCell().textContent = customer.customerName;
+            row.insertCell().textContent = customer.billId;
+            row.insertCell().textContent = customer.address;
+            row.insertCell().textContent = customer.subscriptionNumber;
+            row.insertCell().textContent = customer.contractDemand;
+            row.insertCell().textContent = customer.morningLoad;
+            row.insertCell().textContent = customer.eveningLoad;
+            row.insertCell().textContent = customer.reductionKW;
+            row.insertCell().textContent = customer.reductionPercent;
+
+            // اضافه کردن دکمه "مشاهده نمودار"
+            const chartCell = row.insertCell();
+            const viewChartBtn = document.createElement('button');
+            viewChartBtn.textContent = 'نمودار';
+            viewChartBtn.className = 'btn btn-info btn-sm';
+            viewChartBtn.onclick = () => scrollToChart(customer.bodyNumber);
+            chartCell.appendChild(viewChartBtn);
+
+            // اضافه کردن دکمه "حذف"
+            const deleteCell = row.insertCell();
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'حذف';
+            deleteBtn.className = 'btn btn-danger btn-sm';
+            // حذف مستقیم بدون سوال
+            deleteBtn.onclick = () => deleteCustomerRow(customer.id);
+            deleteCell.appendChild(deleteBtn);
+        });
+        console.log(`تعداد ${parsedData.length} مشتری در جدول نمایش داده شد.`);
+    }
+}
+
